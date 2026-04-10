@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7088779374493945984
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2763850896539143215}
+  - component: {fileID: 6189977558672845351}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2763850896539143215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088779374493945984}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.03106, y: 0.03259, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6189977558672845351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7088779374493945984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c85d5d9d71044e44a8ca2905f2acac22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  healthFill: {fileID: 0}
+  player: {fileID: 0}
+  healthSmoothSpeed: 5
+  leftClickImage: {fileID: 0}
+  rightClickImage: {fileID: 0}
+  spaceClickImage: {fileID: 0}
+  leftNormalSprite: {fileID: 5280185583919615607, guid: 2f5d9fb8953d3244789c4fd47e421be7, type: 3}
+  leftClickedSprite: {fileID: 6886230381420858309, guid: 2f5d9fb8953d3244789c4fd47e421be7, type: 3}
+  rightNormalSprite: {fileID: 7214044208908317005, guid: 93f77a9703a17c6499ef510c4bf9498c, type: 3}
+  rightClickedSprite: {fileID: 5212795682466031913, guid: 93f77a9703a17c6499ef510c4bf9498c, type: 3}
+  spaceNormalSprite: {fileID: -2565814470694118777, guid: 80d419854cf5d6849b374171901e079b, type: 3}
+  spaceClickedSprite: {fileID: -3395803308479665139, guid: 80d419854cf5d6849b374171901e079b, type: 3}
+  clickDuration: 0.1

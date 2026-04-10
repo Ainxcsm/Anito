@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4059277602474487352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2208608148361937577}
+  - component: {fileID: 5834667332962259471}
+  m_Layer: 0
+  m_Name: MapGen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2208608148361937577
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4059277602474487352}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2656, y: -2.85741, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5834667332962259471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4059277602474487352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aef337d0b4555946a3bab3ec30b4208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WalkerGenerator
+  MapWidth: 75
+  MapHeight: 75
+  floorTilemap: {fileID: 0}
+  wallTilemap: {fileID: 0}
+  Floor: {fileID: -1160069854609611885, guid: 1070861561f854a4f8b72f9a4e04cbcf, type: 3}
+  Wall: {fileID: -3698396013750430017, guid: 93035fff6a73a5e43af5516978ae5ff9, type: 3}
+  MaximumWalkers: 20
+  FillPercentage: 0.4
+  WaitTime: 0
+  enemyPrefabs:
+  - {fileID: 6213195385616511016, guid: 2305fbaabac5cbe4e92a58b429a0bbcf, type: 3}
+  - {fileID: 984501739871047508, guid: 04f76e3c55628de42babbd50e1a39723, type: 3}
+  enemySpacing: 4
+  maxEnemies: 20
+  minSpawnCooldown: 0.2
+  poissonRejectionSamples: 30
+  enemyDensity: 0.005
+  respawnCooldown: 5
+  enemyTag: Enemy
+  mapOffset: {x: 0, y: 0, z: 0}
+  TileCount: 0
