@@ -183,7 +183,9 @@ CompositeCollider2D:
   m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
-  m_ColliderPaths: []
+  m_ColliderPaths:
+  - m_Collider: {fileID: 240388429}
+    m_ColliderPaths: []
   m_CompositePaths:
     m_Paths: []
   m_VertexDistance: 0.0005
@@ -911,6 +913,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Game
       objectReference: {fileID: 0}
+    - target: {fileID: 6121706294680710361, guid: 6b375e16403636c42a106c7349d05c00, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7943538081083276830, guid: 6b375e16403636c42a106c7349d05c00, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1169,7 +1175,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4059277602474487352, guid: 33073d9149468454ab9f3d703c354f6f, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5834667332962259471, guid: 33073d9149468454ab9f3d703c354f6f, type: 3}
       propertyPath: wallTilemap
