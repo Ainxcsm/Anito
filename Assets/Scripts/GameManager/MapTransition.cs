@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class MapTransition : MonoBehaviour
 {
@@ -19,9 +20,21 @@ public class MapTransition : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            confiner2D.BoundingShape2D = mapBoundary;
-            UpdatePlayerPosition(collision.gameObject);
+            StartCoroutine(HandleTransition(collision.gameObject));
         }
+    }
+
+    IEnumerator HandleTransition(GameObject player)
+    {
+        // 1. Move player first
+        UpdatePlayerPosition(player);
+
+        // 2. Wait one frame (IMPORTANT)
+        yield return null;
+
+        // 3. Then update camera bounds
+        confiner2D.BoundingShape2D = mapBoundary;
+        confiner2D.InvalidateCache();
     }
 
     private void UpdatePlayerPosition(GameObject player)
