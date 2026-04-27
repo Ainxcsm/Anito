@@ -1,13 +1,17 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class CombatZone : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject[] enemyPrefabs;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] int enemyCount = 3;
 
     [SerializeField] GameObject[] gates;
+
+    [SerializeField] int waves = 3;
+    [SerializeField] int enemiesPerWave = 2;
+    [SerializeField] float timeBetweenWaves = 1.5f;
 
     List<GameObject> enemies = new List<GameObject>();
 
@@ -26,7 +30,6 @@ public class CombatZone : MonoBehaviour
 
     void StartCombat()
     {
-        // LOCK GATES + DEBUG
         foreach (GameObject gate in gates)
         {
             if (gate == null)
@@ -39,46 +42,66 @@ public class CombatZone : MonoBehaviour
             gate.SetActive(true);
         }
 
-        // SPAWN ENEMIES
-        for (int i = 0; i < enemyCount; i++)
-        {
-            if (spawnPoints.Length == 0)
-            {
-                Debug.LogError("No spawn points assigned!");
-                return;
-            }
-
-            Transform spawn = spawnPoints[i % spawnPoints.Length];
-
-            if (enemyPrefab == null)
-            {
-                Debug.LogError("Enemy prefab is NULL!");
-                return;
-            }
-
-            GameObject enemy = Instantiate(enemyPrefab, spawn.position, Quaternion.identity);
-
-            // FORCE FIX visibility issues
-            enemy.transform.position = new Vector3(spawn.position.x, spawn.position.y, 0);
-            enemy.transform.localScale = Vector3.one;
-
-            Debug.Log("Spawned enemy at: " + enemy.transform.position);
-
-            enemies.Add(enemy);
-        }
+        StartCoroutine(HandleWaves());
     }
+
+    IEnumerator HandleWaves()
+    {
+        for (int w = 0; w < waves; w++)
+        {
+            Debug.Log("Starting Wave " + (w + 1));
+
+            SpawnWave(enemiesPerWave);
+
+            // wait until all enemies are dead
+            yield return new WaitUntil(() => enemies.Count == 0);
+
+            Debug.Log("Wave " + (w + 1) + " cleared");
+
+            yield return new WaitForSeconds(timeBetweenWaves);
+        }
+
+        finished = true;
+        EndCombat();
+    }
+
+    void SpawnWave(int count)
+{
+    enemies.Clear();
+
+    for (int i = 0; i < count; i++)
+    {
+        if (spawnPoints.Length == 0)
+        {
+            Debug.LogError("No spawn points assigned!");
+            return;
+        }
+
+        if (enemyPrefabs.Length == 0)
+        {
+            Debug.LogError("No enemy prefabs assigned!");
+            return;
+        }
+
+        Transform spawn = spawnPoints[i % spawnPoints.Length];
+
+        GameObject prefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        GameObject enemy = Instantiate(prefab, spawn.position, Quaternion.identity);
+
+        enemy.transform.position = new Vector3(spawn.position.x, spawn.position.y, 0);
+        enemy.transform.localScale = Vector3.one;
+
+        Debug.Log("Spawned: " + prefab.name);
+
+        enemies.Add(enemy);
+    }
+}
 
     void Update()
     {
         if (!activated || finished) return;
 
         enemies.RemoveAll(e => e == null);
-
-        if (enemies.Count == 0)
-        {
-            finished = true;
-            EndCombat();
-        }
     }
 
     void EndCombat()
