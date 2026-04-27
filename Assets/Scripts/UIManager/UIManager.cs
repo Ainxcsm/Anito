@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
     {
         if (player != null && healthFill != null)
         {
-            // If the player is dead, force health bar to 0
             if (player.isDead)
             {
                 healthFill.fillAmount = 0f;
@@ -37,11 +36,14 @@ public class UIManager : MonoBehaviour
             else
             {
                 targetHealthFill = Mathf.Clamp01(player.currentHealth / player.health);
-                healthFill.fillAmount = Mathf.Lerp(healthFill.fillAmount, targetHealthFill, Time.deltaTime * healthSmoothSpeed);
+                healthFill.fillAmount = Mathf.Lerp(
+                    healthFill.fillAmount,
+                    targetHealthFill,
+                    Time.deltaTime * healthSmoothSpeed
+                );
             }
         }
 
-        // Keybind clicks
         if (Input.GetMouseButtonDown(0)) LeftClickAction();
         if (Input.GetMouseButtonDown(1)) RightClickAction();
         if (Input.GetKey(KeyCode.Space)) SpaceClickAction();
@@ -49,24 +51,30 @@ public class UIManager : MonoBehaviour
 
     public void LeftClickAction()
     {
-        if (leftClickImage != null && leftNormalSprite != null && leftClickedSprite != null)
+        if (leftClickImage != null)
             StartCoroutine(FlashImage(leftClickImage, leftNormalSprite, leftClickedSprite));
     }
 
     public void RightClickAction()
     {
-        if (rightClickImage != null && rightNormalSprite != null && rightClickedSprite != null)
+        if (rightClickImage != null)
             StartCoroutine(FlashImage(rightClickImage, rightNormalSprite, rightClickedSprite));
     }
 
     public void SpaceClickAction()
     {
-        if(spaceClickImage != null && spaceNormalSprite != null && spaceClickedSprite != null);
+        if (spaceClickImage != null)
             StartCoroutine(FlashImage(spaceClickImage, spaceNormalSprite, spaceClickedSprite));
     }
 
     private IEnumerator FlashImage(Image img, Sprite normal, Sprite clicked)
     {
+        if (img == null || normal == null || clicked == null)
+        {
+            Debug.LogWarning("FlashImage missing reference!");
+            yield break;
+        }
+
         img.sprite = clicked;
         yield return new WaitForSeconds(clickDuration);
         img.sprite = normal;
