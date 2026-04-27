@@ -15,5 +15,5 @@ jobs:
           COMMITS=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[] | "- \(.message)"')
 
           curl -H "Content-Type: application/json" \
-          -d "{\"content\":\"@everyone  **New Push by ${{ github.actor }}**\\n\\n **Commits:**\\n$COMMITS\\n\\n━━━━━━━━━━━━━━\\n **DEV REMINDER**\\n• git pull before opening the project\\n• git add .\\n• git commit -m \\\"message\\\"\\n• git push\"}" \
+          -d "{\"content\":\"**New Push by ${{ github.actor }}**\\n\\n **Commits:**\\n$COMMITS\\n\\n━━━━━━━━━━━━━━\\n **DEV REMINDER**\\n• git pull before opening the project\\n• git add .\\n• git commit -m \n\n@everyone\\\"message\\\"\\n• git push\"}" \
           ${{ secrets.DISCORD_WEBHOOK }}
