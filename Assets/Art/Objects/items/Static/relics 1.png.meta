@@ -1,58 +1,52 @@
 fileFormatVersion: 2
-guid: 62af1d825cd7376469cec3fcefdf2ba5
+guid: 7df72c5a13df40744805f642f06f17b0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6085338041668243844
-    second: Jar_0
+      213: 7469748053456551218
+    second: relics 1_0
   - first:
-      213: 5396595176006890396
-    second: Jar_1
+      213: -1842274932961593618
+    second: relics 1_1
   - first:
-      213: -7001753983175476317
-    second: Jar_2
+      213: -8091627033847786955
+    second: relics 1_2
   - first:
-      213: -1040154090823732185
-    second: Jar_3
+      213: -2918111112569149752
+    second: relics 1_3
   - first:
-      213: -3268130221690039485
-    second: Jar_4
+      213: 5101237015730313862
+    second: relics 1_4
   - first:
-      213: -417180884472134599
-    second: Jar_5
+      213: -1321127195952521255
+    second: relics 1_5
   - first:
-      213: 7565231978360970800
-    second: Jar_6
+      213: -9028847697882633080
+    second: relics 1_6
   - first:
-      213: 3033065238313471084
-    second: Jar_7
+      213: 2361082113669213083
+    second: relics 1_7
   - first:
-      213: -8239079820139811020
-    second: Jar_8
+      213: 5718262444330762951
+    second: relics 1_8
   - first:
-      213: 5862834442008449190
-    second: Jar_9
+      213: 4400725153287027195
+    second: relics 1_9
   - first:
-      213: -4232640302411304020
-    second: Jar_10
+      213: 1438972257509857567
+    second: relics 1_10
   - first:
-      213: -1308167505126622817
-    second: Jar_11
+      213: 2216886676455021409
+    second: relics 1_11
   - first:
-      213: 8141372029566152171
-    second: Jar_12
+      213: -4317913920300044454
+    second: relics 1_12
   - first:
-      213: -6207163654502826641
-    second: Jar_13
+      213: 5789149024882317046
+    second: relics 1_13
   - first:
-      213: -3391403063730090154
-    second: Jar_14
-  - first:
-      213: 3886204196639331584
-    second: Jar_15
-  - first:
-      213: 3329303221367153113
-    second: Jar_16
+      213: -9158372060921701457
+    second: relics 1_14
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -148,13 +142,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Jar_0
+      name: relics 1_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 31
-        width: 18
-        height: 21
+        x: 4
+        y: 483
+        width: 24
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -163,20 +157,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4819ec715b6737450800000000000000
-      internalID: 6085338041668243844
+      spriteID: 23d71f73740e9a760800000000000000
+      internalID: 7469748053456551218
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_1
+      name: relics 1_1
       rect:
         serializedVersion: 2
-        x: 111
-        y: 31
-        width: 18
-        height: 21
+        x: 36
+        y: 484
+        width: 22
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,20 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c933a7e58be84ea40800000000000000
-      internalID: 5396595176006890396
+      spriteID: ee6b73295bcee66e0800000000000000
+      internalID: -1842274932961593618
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_2
+      name: relics 1_2
       rect:
         serializedVersion: 2
-        x: 183
-        y: 38
-        width: 9
-        height: 9
+        x: 68
+        y: 484
+        width: 22
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,20 +201,42 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3ab362469d5c4de90800000000000000
-      internalID: -7001753983175476317
+      spriteID: 5321e808514c4bf80800000000000000
+      internalID: -8091627033847786955
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_3
+      name: relics 1_3
       rect:
         serializedVersion: 2
-        x: 192
-        y: 31
+        x: 99
+        y: 484
+        width: 22
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c622386769c087d0800000000000000
+      internalID: -2918111112569149752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: relics 1_4
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 486
         width: 20
-        height: 17
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -229,20 +245,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 72438c88d51a091f0800000000000000
-      internalID: -1040154090823732185
+      spriteID: 68addadc90c3bc640800000000000000
+      internalID: 5101237015730313862
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_4
+      name: relics 1_5
       rect:
         serializedVersion: 2
-        x: 207
-        y: 39
-        width: 9
-        height: 7
+        x: 159
+        y: 485
+        width: 24
+        height: 23
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -251,86 +267,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3435270f0e445a2d0800000000000000
-      internalID: -3268130221690039485
+      spriteID: 9df542e90d96aade0800000000000000
+      internalID: -1321127195952521255
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_5
+      name: relics 1_6
       rect:
         serializedVersion: 2
-        x: 260
-        y: 32
-        width: 10
-        height: 7
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 93484f52230e53af0800000000000000
-      internalID: -417180884472134599
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jar_6
-      rect:
-        serializedVersion: 2
-        x: 266
-        y: 31
-        width: 27
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 03e91a9e66a1df860800000000000000
-      internalID: 7565231978360970800
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jar_7
-      rect:
-        serializedVersion: 2
-        x: 291
-        y: 32
-        width: 7
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c6c824ea3cc971a20800000000000000
-      internalID: 3033065238313471084
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jar_8
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 31
+        x: 194
+        y: 483
         width: 17
-        height: 14
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -339,20 +289,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 43f2a7c5e88e8ad80800000000000000
-      internalID: -8239079820139811020
+      spriteID: 88c2a9c0bd613b280800000000000000
+      internalID: -9028847697882633080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_9
+      name: relics 1_7
       rect:
         serializedVersion: 2
-        x: 432
-        y: 31
+        x: 225
+        y: 485
         width: 17
-        height: 14
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -361,20 +311,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6a0d6d4ccd8fc5150800000000000000
-      internalID: 5862834442008449190
+      spriteID: b9b28ce3caf34c020800000000000000
+      internalID: 2361082113669213083
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_10
+      name: relics 1_8
       rect:
         serializedVersion: 2
-        x: 512
-        y: 31
-        width: 17
-        height: 14
+        x: 257
+        y: 483
+        width: 15
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -383,20 +333,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ca3b5c80214a245c0800000000000000
-      internalID: -4232640302411304020
+      spriteID: 7c2cace75695b5f40800000000000000
+      internalID: 5718262444330762951
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_11
+      name: relics 1_9
       rect:
         serializedVersion: 2
-        x: 340
-        y: 32
-        width: 10
-        height: 6
+        x: 285
+        y: 485
+        width: 24
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -405,20 +355,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f99f736c59478dde0800000000000000
-      internalID: -1308167505126622817
+      spriteID: bf9bccbf534821d30800000000000000
+      internalID: 4400725153287027195
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_12
+      name: relics 1_10
       rect:
         serializedVersion: 2
-        x: 373
-        y: 30
-        width: 9
-        height: 6
+        x: 317
+        y: 484
+        width: 20
+        height: 24
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -427,20 +377,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bed679ed9b6fbf070800000000000000
-      internalID: 8141372029566152171
+      spriteID: f19548ae4a148f310800000000000000
+      internalID: 1438972257509857567
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_13
+      name: relics 1_11
       rect:
         serializedVersion: 2
-        x: 420
-        y: 32
-        width: 10
-        height: 6
+        x: 348
+        y: 484
+        width: 20
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -449,20 +399,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6db4ae0b89bbd9a0800000000000000
-      internalID: -6207163654502826641
+      spriteID: 16bd569cfa6f3ce10800000000000000
+      internalID: 2216886676455021409
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_14
+      name: relics 1_12
       rect:
         serializedVersion: 2
-        x: 453
-        y: 30
-        width: 9
-        height: 6
+        x: 376
+        y: 446
+        width: 25
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -471,20 +421,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 65f4238c1e05fe0d0800000000000000
-      internalID: -3391403063730090154
+      spriteID: a5f2dc1ba20b314c0800000000000000
+      internalID: -4317913920300044454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_15
+      name: relics 1_13
       rect:
         serializedVersion: 2
-        x: 500
-        y: 32
-        width: 10
-        height: 6
+        x: 407
+        y: 482
+        width: 25
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -493,20 +443,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 005d15970229ee530800000000000000
-      internalID: 3886204196639331584
+      spriteID: 6f6d8ebad50375050800000000000000
+      internalID: 5789149024882317046
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Jar_16
+      name: relics 1_14
       rect:
         serializedVersion: 2
-        x: 533
-        y: 30
-        width: 9
-        height: 6
+        x: 438
+        y: 482
+        width: 24
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -515,8 +465,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9d12723f3af043e20800000000000000
-      internalID: 3329303221367153113
+      spriteID: fab56eb322de6e080800000000000000
+      internalID: -9158372060921701457
       vertices: []
       indices: 
       edges: []
@@ -535,23 +485,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Jar_0: 6085338041668243844
-      Jar_1: 5396595176006890396
-      Jar_10: -4232640302411304020
-      Jar_11: -1308167505126622817
-      Jar_12: 8141372029566152171
-      Jar_13: -6207163654502826641
-      Jar_14: -3391403063730090154
-      Jar_15: 3886204196639331584
-      Jar_16: 3329303221367153113
-      Jar_2: -7001753983175476317
-      Jar_3: -1040154090823732185
-      Jar_4: -3268130221690039485
-      Jar_5: -417180884472134599
-      Jar_6: 7565231978360970800
-      Jar_7: 3033065238313471084
-      Jar_8: -8239079820139811020
-      Jar_9: 5862834442008449190
+      relics 1_0: 7469748053456551218
+      relics 1_1: -1842274932961593618
+      relics 1_10: 1438972257509857567
+      relics 1_11: 2216886676455021409
+      relics 1_12: -4317913920300044454
+      relics 1_13: 5789149024882317046
+      relics 1_14: -9158372060921701457
+      relics 1_2: -8091627033847786955
+      relics 1_3: -2918111112569149752
+      relics 1_4: 5101237015730313862
+      relics 1_5: -1321127195952521255
+      relics 1_6: -9028847697882633080
+      relics 1_7: 2361082113669213083
+      relics 1_8: 5718262444330762951
+      relics 1_9: 4400725153287027195
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
