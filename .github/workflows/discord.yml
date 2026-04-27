@@ -1,4 +1,4 @@
-name: Discord Notify
+name: Discord Commit Notifier
 
 on:
   push:
@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Discord Message
+      - name: Send commits to Discord
         run: |
+          COMMITS=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[] | "- \(.message)"')
+
           curl -H "Content-Type: application/json" \
-          -d "{\"content\":\"🚀 New update pushed by ${{ github.actor }}\"}" \
+          -d "{\"content\":\"🚀 **New Push by ${{ github.actor }}**\\n\\n📦 **Commits:**\\n$COMMITS\"}" \
           ${{ secrets.DISCORD_WEBHOOK }}
