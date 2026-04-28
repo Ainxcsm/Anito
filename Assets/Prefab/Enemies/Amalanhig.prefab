@@ -211,6 +211,13 @@ MonoBehaviour:
   attackCd: 0.05
   currentHealth: 0
   animator: {fileID: 5953051191553997888}
+  lootTable:
+  - itemPrefab: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+    chance: 25
+  - itemPrefab: {fileID: 2160691710848243363, guid: 564ee5dfe05332d489c0f6a685a70209, type: 3}
+    chance: 10
+  - itemPrefab: {fileID: 9126758146079105119, guid: e8832abb17e4d654db1c80c9762900cb, type: 3}
+    chance: 3
 --- !u!114 &2566162163924344032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b053f3cd5fda213499ddfbc6a3cda212, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  enemy: {fileID: 3727351985860908857}
   stopDist: 0.225
   cdTimer: 0
-  enemy: {fileID: 3727351985860908857}
-  statplayer: {fileID: 0}

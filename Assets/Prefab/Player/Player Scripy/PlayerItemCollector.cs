@@ -1,30 +1,47 @@
 using UnityEngine;
 
 public class PlayerItemCollector : MonoBehaviour
-{   
+{
     private InventoryController inventoryController;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private bool pickupLocked;
+
     void Start()
     {
         inventoryController = FindAnyObjectByType<InventoryController>();
     }
 
-    // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("TRIGGER HIT: " + collision.name);
-        if (collision.CompareTag("Item"))
-        {
-            Item item = collision.GetComponent<Item>();
-            if(item != null)
-            {
-                bool itemAdded = inventoryController.AddItem(collision.gameObject);
+        if (pickupLocked) return;
 
-                if(itemAdded)
-                {
-                    Destroy(collision.gameObject);
-                }
-            }
+        if (!collision.CompareTag("Item")) return;
+
+        Item item = collision.GetComponent<Item>();
+        if (item == null) return;
+
+        pickupLocked = true;
+
+        Debug.Log("TRIGGER HIT: " + collision.name);
+
+        bool added = inventoryController.AddItem(collision.gameObject);
+
+        if (added)
+        {
+            item.Pickup();
+
+            // 🔥 IMPORTANT: disable collider FIRST
+            collision.enabled = false;
+
+            Destroy(collision.gameObject);
         }
+
+        // allow next pickup next frame
+        StartCoroutine(ResetPickup());
+    }
+
+    private System.Collections.IEnumerator ResetPickup()
+    {
+        yield return null;
+        pickupLocked = false;
     }
 }

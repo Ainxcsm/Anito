@@ -117,6 +117,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
   ID: 1
+  Name: Narra
+  icon: {fileID: 7469748053456551218, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
 --- !u!212 &2068213577375637061
 SpriteRenderer:
   serializedVersion: 2

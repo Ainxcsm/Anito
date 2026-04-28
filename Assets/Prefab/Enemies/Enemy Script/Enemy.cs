@@ -13,16 +13,21 @@ public class Enemy : MonoBehaviour
     [HideInInspector]
     public float currentHealth;
 
+    private bool isDead;
+
     [Header("Components")]
     public Animator animator;
     private Rigidbody2D rb;
     private Collider2D col;
     private SpriteRenderer[] spriteRenderers;
-    private bool isDead = false;
+
+    [Header("Loot")]
+    public LootEntry[] lootTable;
 
     void Awake()
     {
         currentHealth = maxHealth;
+
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
@@ -33,9 +38,11 @@ public class Enemy : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= amount;
+
+        Debug.Log($"Enemy hit: {amount} | HP: {currentHealth}");
+
         if (currentHealth <= 0f)
         {
-            currentHealth = 0f;
             Die();
         }
     }
@@ -43,43 +50,57 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         if (isDead) return;
+
         isDead = true;
 
-       
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-            if (rb.bodyType == RigidbodyType2D.Dynamic)
-                rb.isKinematic = true; 
-        }
+        Debug.Log("[ENEMY] DIED");
 
-      
-        if (col != null)
-            col.enabled = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.isKinematic = true;
 
-        foreach (var comp in GetComponents<MonoBehaviour>())
-        {
-            if (comp != this) 
-                comp.enabled = false;
-        }
+        col.enabled = false;
 
-        // Play death animation
+        var ai = GetComponent<EnemyAI>();
+        if (ai != null) ai.enabled = false;
+
         if (animator != null)
             animator.SetTrigger("Die");
+
+        DropLoot();
     }
 
-    
+    void DropLoot()
+    {
+        if (lootTable == null || lootTable.Length == 0) return;
+
+        float total = 0f;
+
+        foreach (var item in lootTable)
+            total += item.chance;
+
+        float roll = Random.Range(0f, total);
+
+        float current = 0f;
+
+        foreach (var item in lootTable)
+        {
+            current += item.chance;
+
+            if (roll <= current)
+            {
+                if (item.itemPrefab != null)
+                {
+                    Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
+                    Debug.Log("[ENEMY] Dropped item");
+                }
+                return;
+            }
+        }
+    }
+
+    // Called by animation event
     public void FinishDeath()
     {
-       
-        foreach (var sr in spriteRenderers)
-            sr.enabled = false;
-
-        if (animator != null)
-            animator.enabled = false;
-
-    
-        Destroy(gameObject, 0.01f);
+        Destroy(gameObject);
     }
 }

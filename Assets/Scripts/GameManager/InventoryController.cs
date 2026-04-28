@@ -6,34 +6,28 @@ public class InventoryController : MonoBehaviour
     public GameObject slotPrefab;
     public int slotCount;
 
-    private Slot[] slots;
-
     void Start()
     {
-        // Build slots properly (prevents hierarchy issues)
-        slots = new Slot[slotCount];
-
         for (int i = 0; i < slotCount; i++)
         {
-            GameObject slotObj = Instantiate(slotPrefab, inventoryPanel.transform);
-            slots[i] = slotObj.GetComponent<Slot>();
-            slots[i].currentItem = null;
+            Instantiate(slotPrefab, inventoryPanel.transform);
         }
     }
 
-    public bool AddItem(GameObject itemPrefab)
+    public bool AddItem(GameObject item)
     {
-        foreach (Slot slot in slots)
+        foreach (Transform slotTransform in inventoryPanel.transform)
         {
-            if (slot == null) continue;
+            Slot slot = slotTransform.GetComponent<Slot>();
 
-            // IMPORTANT: clean destroyed references
-            if (slot.currentItem == null)
+            if (slot != null && slot.currentItem == null)
             {
-                GameObject newItem = Instantiate(itemPrefab, slot.transform);
+                GameObject newItem = Instantiate(item, slot.transform);
+
                 newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
-                slot.currentItem = newItem;
+                slot.SetItem(newItem);
+
                 return true;
             }
         }

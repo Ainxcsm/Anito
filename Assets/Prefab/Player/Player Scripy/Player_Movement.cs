@@ -9,8 +9,10 @@ public class Running : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    public WeaponAttack swordAttack; // assign sword hitbox
-    public WeaponAttack gunAttack;   // assign gun hitbox
+    public WeaponAttack swordAttack;
+    public WeaponAttack gunAttack;
+
+    public InteractionDetector interactionDetector; // 🔥 ADDED
 
     bool canMove = true;
 
@@ -23,7 +25,6 @@ public class Running : MonoBehaviour
     private float dashTime;
     private float lastDash = -Mathf.Infinity;
     private Vector2 dashDirection;
-
 
     void Start()
     {
@@ -46,9 +47,17 @@ public class Running : MonoBehaviour
         if (Keyboard.current.sKey.isPressed) moveInput.y -= 1;
         if (Keyboard.current.aKey.isPressed) moveInput.x -= 1;
         if (Keyboard.current.dKey.isPressed) moveInput.x += 1;
+
+        // Dash
         if (Keyboard.current.spaceKey.wasPressedThisFrame && Time.time >= lastDash + dashCooldown && canMove)
         {
             StartDash();
+        }
+
+        // 🔥 INTERACT (E key)
+        if (Keyboard.current.eKey.wasPressedThisFrame && canMove && !isDashing)
+        {
+            interactionDetector.TryInteract();
         }
 
         moveInput = moveInput.normalized;
@@ -56,8 +65,6 @@ public class Running : MonoBehaviour
 
         if (moveInput.x < 0) spriteRenderer.flipX = true;
         else if (moveInput.x > 0) spriteRenderer.flipX = false;
-
-
     }
 
     void StartDash()
@@ -66,13 +73,12 @@ public class Running : MonoBehaviour
         dashTime = dashDuration;
         lastDash = Time.time;
 
-        // Use current movement input as dash direction
         dashDirection = moveInput;
-        if (dashDirection == Vector2.zero) // if no input, dash forward based on sprite
+        if (dashDirection == Vector2.zero)
             dashDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
-        animator.SetTrigger("Dash");
 
-        LockMovement(); // optional: lock normal movement during dash
+        animator.SetTrigger("Dash");
+        LockMovement();
     }
 
     void FixedUpdate()
@@ -99,7 +105,6 @@ public class Running : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
         }
     }
-
 
     public void AttackMelee()
     {
