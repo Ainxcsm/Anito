@@ -16,17 +16,41 @@ public class InventoryController : MonoBehaviour
 
     public bool AddItem(GameObject item)
     {
+        Item itemToAdd = item.GetComponent<Item>();
+        if (itemToAdd == null) return false;
+
+        // 🔥 STACK FIRST
+        foreach (Transform slotTransform in inventoryPanel.transform)
+        {
+            Slot slot = slotTransform.GetComponent<Slot>();
+
+            if (slot != null && slot.currentItem != null)
+            {
+                Item slotItem = slot.currentItem.GetComponent<Item>();
+
+                if (slotItem != null && slotItem.ID == itemToAdd.ID)
+                {
+                    slotItem.AddToStack(1);
+                    return true;
+                }
+            }
+        }
+
+        // 🔥 CREATE NEW ITEM (same prefab)
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
 
             if (slot != null && slot.currentItem == null)
             {
-                GameObject newItem = Instantiate(item, slot.transform);
+                GameObject newItem = Instantiate(item, slotTransform);
 
-                newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                // 🔥 IMPORTANT: fix UI position
+                RectTransform rect = newItem.GetComponent<RectTransform>();
+                if (rect != null)
+                    rect.anchoredPosition = Vector2.zero;
 
-                slot.SetItem(newItem);
+                slot.currentItem = newItem;
 
                 return true;
             }
