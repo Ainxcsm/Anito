@@ -104,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 619aa745b86647d4d8872998d1e313cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Item
-  ID: 1
+  ID: 0
   Name: Narra
   icon: {fileID: 7469748053456551218, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
   uiPrefab: {fileID: 6375432198348358234}

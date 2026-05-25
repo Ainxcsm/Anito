@@ -12,7 +12,7 @@ public class ItemPickUIController : MonoBehaviour
     public int maxPopups = 3;
     public float popupDuration = 3f;
 
-    private readonly Queue<GameObject> activePopups = new();
+    private readonly Queue<GameObject> activePopups = new Queue<GameObject>();
 
     private void Awake()
     {
@@ -27,15 +27,56 @@ public class ItemPickUIController : MonoBehaviour
 
     public void ShowItemPickup(string itemName, Sprite itemIcon)
     {
+        if (popupPrefab == null)
+        {
+            Debug.LogError("Popup Prefab is missing in ItemPickUIController.");
+            return;
+        }
+
         GameObject popup = Instantiate(popupPrefab, transform);
+        popup.SetActive(true);
 
-        TMP_Text text = popup.GetComponentInChildren<TMP_Text>();
+        CanvasGroup canvasGroup = popup.GetComponent<CanvasGroup>();
 
-        // ✅ FIX: ONLY target ItemIcon, NOT all Images
-        Image icon = popup.transform.Find("ItemIcon")?.GetComponent<Image>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = popup.AddComponent<CanvasGroup>();
+        }
+
+        canvasGroup.alpha = 1f;
+
+        TMP_Text text = popup.GetComponentInChildren<TMP_Text>(true);
 
         if (text != null)
+        {
             text.text = itemName;
+        }
+        else
+        {
+            Debug.LogError("No TMP_Text found inside popup prefab.");
+        }
+
+        Image icon = null;
+        Transform iconTransform = popup.transform.Find("ItemIcon");
+
+        if (iconTransform != null)
+        {
+            icon = iconTransform.GetComponent<Image>();
+        }
+
+        if (icon == null)
+        {
+            Image[] images = popup.GetComponentsInChildren<Image>(true);
+
+            foreach (Image image in images)
+            {
+                if (image.gameObject.name == "ItemIcon")
+                {
+                    icon = image;
+                    break;
+                }
+            }
+        }
 
         if (icon != null)
         {
@@ -44,14 +85,19 @@ public class ItemPickUIController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("ItemIcon not found in popup prefab!");
+            Debug.LogError("ItemIcon not found in popup prefab. Make sure the icon object is named ItemIcon.");
         }
 
         activePopups.Enqueue(popup);
 
         if (activePopups.Count > maxPopups)
         {
-            Destroy(activePopups.Dequeue());
+            GameObject oldPopup = activePopups.Dequeue();
+
+            if (oldPopup != null)
+            {
+                Destroy(oldPopup);
+            }
         }
 
         StartCoroutine(FadeOut(popup));
@@ -61,24 +107,32 @@ public class ItemPickUIController : MonoBehaviour
     {
         yield return new WaitForSeconds(popupDuration);
 
-        if (popup == null) yield break;
+        if (popup == null)
+        {
+            yield break;
+        }
 
-        CanvasGroup cg = popup.GetComponent<CanvasGroup>();
+        CanvasGroup canvasGroup = popup.GetComponent<CanvasGroup>();
 
-        if (cg == null)
+        if (canvasGroup == null)
         {
             Destroy(popup);
             yield break;
         }
 
-        float t = 0f;
+        float timer = 0f;
+        float fadeDuration = 0.5f;
 
-        while (t < 1f)
+        while (timer < fadeDuration)
         {
-            if (popup == null) yield break;
+            if (popup == null)
+            {
+                yield break;
+            }
 
-            cg.alpha = 1f - t;
-            t += Time.deltaTime;
+            timer += Time.deltaTime;
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, timer / fadeDuration);
+
             yield return null;
         }
 

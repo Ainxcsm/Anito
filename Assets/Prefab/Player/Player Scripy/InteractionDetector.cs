@@ -3,22 +3,33 @@ using UnityEngine;
 public class InteractionDetector : MonoBehaviour
 {
     private IInteractable interactableInRange = null;
-
     public GameObject interactionIcon;
-
     private bool interactLock;
 
     void Start()
     {
         if (interactionIcon != null)
+        {
             interactionIcon.SetActive(false);
+        }
     }
 
     public void TryInteract()
     {
-        if (interactLock) return;
+        if (interactLock)
+        {
+            return;
+        }
 
-        if (interactableInRange == null) return;
+        if (interactableInRange == null)
+        {
+            return;
+        }
+
+        if (!interactableInRange.CanInteract())
+        {
+            return;
+        }
 
         interactLock = true;
 
@@ -31,7 +42,7 @@ public class InteractionDetector : MonoBehaviour
 
     private System.Collections.IEnumerator ResetLock()
     {
-        yield return null; // wait 1 frame
+        yield return new WaitForSeconds(0.1f);
         interactLock = false;
     }
 
@@ -44,7 +55,9 @@ public class InteractionDetector : MonoBehaviour
             interactableInRange = interactable;
 
             if (interactionIcon != null)
+            {
                 interactionIcon.SetActive(true);
+            }
         }
     }
 
@@ -57,7 +70,9 @@ public class InteractionDetector : MonoBehaviour
             interactableInRange = null;
 
             if (interactionIcon != null)
+            {
                 interactionIcon.SetActive(false);
+            }
         }
     }
 }

@@ -1372,7 +1372,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 9
-      m_TileSpriteIndex: 4294967295
+      m_TileSpriteIndex: 61
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -7576,6 +7576,9 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 3
     m_Data: {fileID: 2013489767, guid: d193069100a91b24f97de57794471efa, type: 3}
+  - serializedVersion: 2
+    m_RefCount: 1
+    m_Data: {fileID: 591609318}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 679
@@ -21563,7 +21566,7 @@ PrefabInstance:
       objectReference: {fileID: 386857312}
     - target: {fileID: 267702759382956255, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 410145474456781424, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_Sprite
@@ -21627,7 +21630,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 790120397327940134, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 931163319674426549, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_Camera
@@ -21657,6 +21660,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7214044208908317005, guid: d8f49ae2ebe7ede4ea528bf620a59439, type: 3}
+    - target: {fileID: 1374704853596885599, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1621153954313222448, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -21775,7 +21782,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2822529915071170110, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_Padding.m_Left
-      value: 24
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2822529915071170110, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_Padding.m_Right
@@ -21834,6 +21841,10 @@ PrefabInstance:
       value: UI Game
       objectReference: {fileID: 0}
     - target: {fileID: 5033281132721470782, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5269238958130710759, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

@@ -5,6 +5,7 @@ public class Slot : MonoBehaviour
 {
     public GameObject currentItem;
     public Image slotActivate;
+
     public void SetItem(GameObject item)
     {
         currentItem = item;
@@ -13,5 +14,10 @@ public class Slot : MonoBehaviour
     public void Clear()
     {
         currentItem = null;
+    }
+
+    public bool HasItem()
+    {
+        return currentItem != null;
     }
 }

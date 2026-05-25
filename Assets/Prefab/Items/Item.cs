@@ -6,23 +6,23 @@ public class Item : MonoBehaviour
     public int ID;
     public string Name;
     public Sprite icon;
-
-    public GameObject uiPrefab; // 🔥 IMPORTANT
-
+    public GameObject uiPrefab;
     public int quantity = 1;
 
     private TMP_Text quantityText;
 
     private void Awake()
     {
-        quantityText = GetComponentInChildren<TMP_Text>();
+        quantityText = GetComponentInChildren<TMP_Text>(true);
         UpdateQuantityDisplay();
     }
 
     public void UpdateQuantityDisplay()
     {
         if (quantityText != null)
+        {
             quantityText.text = quantity > 1 ? quantity.ToString() : "";
+        }
     }
 
     public void AddToStack(int amount = 1)

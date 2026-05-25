@@ -6,43 +6,77 @@ public class DialogueManager : MonoBehaviour
 {
     public TextMeshProUGUI dialogueText;
     public GameObject panel;
-
     public Running player;
-
     public string[] lines;
     public float textSpeed = 0.03f;
 
-    int index;
-    bool isTyping;
-    bool started;
+    private int index;
+    private bool isTyping;
+    private bool started;
+    private Coroutine typingCoroutine;
 
     void Start()
     {
-        panel.SetActive(false);
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
+
+        if (player == null)
+        {
+            player = FindObjectOfType<Running>();
+        }
+
         StartCoroutine(BeginDialogue());
     }
 
     IEnumerator BeginDialogue()
     {
-        yield return new WaitForSeconds(1.5f); // fade buffer
+        yield return new WaitForSeconds(1.5f);
 
-        player.LockMovement();
+        if (player != null)
+        {
+            player.SetDialogueLock(true);
+        }
+        else
+        {
+            Debug.LogError("DialogueManager could not find the player Running script.");
+        }
 
-        panel.SetActive(true);
+        if (panel != null)
+        {
+            panel.SetActive(true);
+        }
+
         started = true;
+        index = 0;
 
-        StartCoroutine(TypeLine());
+        if (lines != null && lines.Length > 0)
+        {
+            typingCoroutine = StartCoroutine(TypeLine());
+        }
+        else
+        {
+            EndDialogue();
+        }
     }
 
     void Update()
     {
-        if (!started) return;
+        if (!started)
+        {
+            return;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {
-                StopAllCoroutines();
+                if (typingCoroutine != null)
+                {
+                    StopCoroutine(typingCoroutine);
+                }
+
                 dialogueText.text = lines[index];
                 isTyping = false;
             }
@@ -73,7 +107,7 @@ public class DialogueManager : MonoBehaviour
 
         if (index < lines.Length)
         {
-            StartCoroutine(TypeLine());
+            typingCoroutine = StartCoroutine(TypeLine());
         }
         else
         {
@@ -83,13 +117,23 @@ public class DialogueManager : MonoBehaviour
 
     void EndDialogue()
     {
-        panel.SetActive(false);
+        started = false;
+
+        if (panel != null)
+        {
+            panel.SetActive(false);
+        }
+
         StartCoroutine(UnlockDelay());
     }
 
     IEnumerator UnlockDelay()
     {
         yield return new WaitForSeconds(0.3f);
-        player.UnlockMovement();
+
+        if (player != null)
+        {
+            player.SetDialogueLock(false);
+        }
     }
 }

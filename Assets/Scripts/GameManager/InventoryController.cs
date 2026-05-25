@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryController : MonoBehaviour
@@ -5,6 +6,8 @@ public class InventoryController : MonoBehaviour
     public GameObject inventoryPanel;
     public GameObject slotPrefab;
     public int slotCount;
+
+    private readonly HashSet<int> processedPickupObjects = new HashSet<int>();
 
     void Start()
     {
@@ -16,10 +19,28 @@ public class InventoryController : MonoBehaviour
 
     public bool AddItem(GameObject item)
     {
-        Item itemToAdd = item.GetComponent<Item>();
-        if (itemToAdd == null) return false;
+        if (item == null)
+        {
+            return false;
+        }
 
-        // 🔥 STACK FIRST
+        int pickupObjectID = item.GetInstanceID();
+
+        if (processedPickupObjects.Contains(pickupObjectID))
+        {
+            return false;
+        }
+
+        Item itemToAdd = item.GetComponent<Item>();
+
+        if (itemToAdd == null)
+        {
+            Debug.LogError("Picked object has no Item component: " + item.name);
+            return false;
+        }
+
+        processedPickupObjects.Add(pickupObjectID);
+
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
@@ -36,26 +57,42 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        // 🔥 CREATE NEW ITEM (same prefab)
         foreach (Transform slotTransform in inventoryPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
 
             if (slot != null && slot.currentItem == null)
             {
-                GameObject newItem = Instantiate(item, slotTransform);
+                GameObject prefabToUse = itemToAdd.uiPrefab != null ? itemToAdd.uiPrefab : item;
+                GameObject newItem = Instantiate(prefabToUse, slotTransform);
 
-                // 🔥 IMPORTANT: fix UI position
                 RectTransform rect = newItem.GetComponent<RectTransform>();
+
                 if (rect != null)
+                {
                     rect.anchoredPosition = Vector2.zero;
+                    rect.localScale = Vector3.one;
+                    rect.localRotation = Quaternion.identity;
+                }
+
+                Item newItemComponent = newItem.GetComponent<Item>();
+
+                if (newItemComponent != null)
+                {
+                    newItemComponent.ID = itemToAdd.ID;
+                    newItemComponent.Name = itemToAdd.Name;
+                    newItemComponent.icon = itemToAdd.icon;
+                    newItemComponent.uiPrefab = itemToAdd.uiPrefab;
+                    newItemComponent.quantity = 1;
+                    newItemComponent.UpdateQuantityDisplay();
+                }
 
                 slot.currentItem = newItem;
-
                 return true;
             }
         }
 
+        processedPickupObjects.Remove(pickupObjectID);
         Debug.Log("Inventory is full");
         return false;
     }
