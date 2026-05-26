@@ -4,7 +4,8 @@ using System.Collections;
 public class WeaponAttack : MonoBehaviour
 {
     public float damage = 10f;
-    public Collider2D weaponCollider; 
+    public Collider2D weaponCollider;
+
     [HideInInspector] public bool isActiveWeapon = false;
 
     private Vector3 originalLocalPos;
@@ -13,28 +14,46 @@ public class WeaponAttack : MonoBehaviour
     void Start()
     {
         originalLocalPos = transform.localPosition;
-        weaponCollider.enabled = false;
-        parentSprite = transform.parent.GetComponent<SpriteRenderer>();
+
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = false;
+        }
+
+        if (transform.parent != null)
+        {
+            parentSprite = transform.parent.GetComponent<SpriteRenderer>();
+        }
     }
 
     public void Attack()
     {
-        if (!isActiveWeapon) return;
+        if (!isActiveWeapon)
+        {
+            return;
+        }
+
         StartCoroutine(HitRoutine());
     }
 
     IEnumerator HitRoutine()
     {
-        // Optional delay before the hit (adjust to animation timing)
         yield return new WaitForSeconds(0.1f);
 
-        weaponCollider.enabled = true;
-        if (parentSprite.flipX)
-            transform.localPosition = new Vector3(-originalLocalPos.x, originalLocalPos.y, originalLocalPos.z);
-        else
-            transform.localPosition = originalLocalPos;
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = true;
+        }
 
-        // Keep hitbox active for short window
+        if (parentSprite != null && parentSprite.flipX)
+        {
+            transform.localPosition = new Vector3(-originalLocalPos.x, originalLocalPos.y, originalLocalPos.z);
+        }
+        else
+        {
+            transform.localPosition = originalLocalPos;
+        }
+
         yield return new WaitForSeconds(0.15f);
 
         StopAttack();
@@ -42,22 +61,38 @@ public class WeaponAttack : MonoBehaviour
 
     public void StopAttack()
     {
-        weaponCollider.enabled = false;
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = false;
+        }
+
         transform.localPosition = originalLocalPos;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!isActiveWeapon) return;
+        if (!isActiveWeapon)
+        {
+            return;
+        }
 
         if (other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
+
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
                 Debug.Log(gameObject.name + " hit " + enemy.name);
             }
+        }
+
+        Breakable breakable = other.GetComponent<Breakable>();
+
+        if (breakable != null)
+        {
+            breakable.TakeDamage(damage);
+            Debug.Log(gameObject.name + " broke/hit " + breakable.name);
         }
     }
 }
