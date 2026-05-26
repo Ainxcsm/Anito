@@ -10,16 +10,17 @@ public class Enemy : MonoBehaviour
     public float detectionRange = 5f;
     public float attackCd = 0.5f;
 
-    [HideInInspector]
-    public float currentHealth;
+    [HideInInspector] public float currentHealth;
 
     private bool isDead;
 
     [Header("Components")]
     public Animator animator;
+
     private Rigidbody2D rb;
     private Collider2D col;
     private SpriteRenderer[] spriteRenderers;
+    private EnemyAudio enemyAudio;
 
     [Header("Loot")]
     public LootEntry[] lootTable;
@@ -27,17 +28,29 @@ public class Enemy : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
-
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        enemyAudio = GetComponent<EnemyAudio>();
     }
 
     public void TakeDamage(float amount)
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         currentHealth -= amount;
+
+        if (enemyAudio != null)
+        {
+            enemyAudio.PlayHit();
+        }
+        else if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayEnemyHit();
+        }
 
         Debug.Log($"Enemy hit: {amount} | HP: {currentHealth}");
 
@@ -49,37 +62,65 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return;
+        if (isDead)
+        {
+            return;
+        }
 
         isDead = true;
 
+        if (enemyAudio != null)
+        {
+            enemyAudio.PlayDeath();
+        }
+        else if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayEnemyDeath();
+        }
+
         Debug.Log("[ENEMY] DIED");
 
-        rb.linearVelocity = Vector2.zero;
-        rb.isKinematic = true;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.isKinematic = true;
+        }
 
-        col.enabled = false;
+        if (col != null)
+        {
+            col.enabled = false;
+        }
 
-        var ai = GetComponent<EnemyAI>();
-        if (ai != null) ai.enabled = false;
+        EnemyAI ai = GetComponent<EnemyAI>();
+
+        if (ai != null)
+        {
+            ai.enabled = false;
+        }
 
         if (animator != null)
+        {
             animator.SetTrigger("Die");
+        }
 
         DropLoot();
     }
 
     void DropLoot()
     {
-        if (lootTable == null || lootTable.Length == 0) return;
+        if (lootTable == null || lootTable.Length == 0)
+        {
+            return;
+        }
 
         float total = 0f;
 
         foreach (var item in lootTable)
+        {
             total += item.chance;
+        }
 
         float roll = Random.Range(0f, total);
-
         float current = 0f;
 
         foreach (var item in lootTable)
@@ -93,12 +134,12 @@ public class Enemy : MonoBehaviour
                     Instantiate(item.itemPrefab, transform.position, Quaternion.identity);
                     Debug.Log("[ENEMY] Dropped item");
                 }
+
                 return;
             }
         }
     }
 
-    // Called by animation event
     public void FinishDeath()
     {
         Destroy(gameObject);

@@ -15,6 +15,7 @@ public class EnemyAI : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer spriteRenderer;
+    private EnemyAudio enemyAudio;
 
     public Enemy enemy;
 
@@ -25,22 +26,24 @@ public class EnemyAI : MonoBehaviour
     public float patrolWaitTime = 1.5f;
     public bool returnToSpawnWhenLost = true;
 
-    [Header("Attack")]
-    public float attackWindupLock = 0.35f;
+    [Header("Attack Cooldown")]
+    public float attackCooldown = 1.5f;
+    public float attackLockDuration = 0.45f;
 
     private EnemyState currentState = EnemyState.Idle;
     private Vector2 spawnPosition;
     private Vector2 patrolTarget;
-    private float cdTimer = 0f;
     private float patrolTimer = 0f;
-    private bool isLockedByAttack = false;
-    private bool isInitialized = false;
+    private float attackCooldownTimer = 0f;
+    private bool isAttacking = false;
+    private bool hasDealtDamageThisAttack = false;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyAudio = GetComponent<EnemyAudio>();
 
         if (enemy == null)
         {
@@ -65,20 +68,19 @@ public class EnemyAI : MonoBehaviour
             rb.gravityScale = 0;
         }
 
+        if (enemy != null)
+        {
+            attackCooldown = enemy.attackCd;
+        }
+
         PickNewPatrolTarget();
-        isInitialized = true;
     }
 
     void Update()
     {
-        if (!isInitialized)
+        if (attackCooldownTimer > 0f)
         {
-            return;
-        }
-
-        if (cdTimer > 0f)
-        {
-            cdTimer -= Time.deltaTime;
+            attackCooldownTimer -= Time.deltaTime;
         }
 
         if (target == null)
@@ -100,7 +102,7 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        if (IsCurrentlyInAttackAnimation())
+        if (isAttacking || IsCurrentlyInAttackAnimation())
         {
             StopMoving();
             return;
@@ -108,7 +110,7 @@ public class EnemyAI : MonoBehaviour
 
         float distanceToPlayer = Vector2.Distance(transform.position, target.position);
 
-        if (distanceToPlayer <= enemy.attackRange && cdTimer <= 0f)
+        if (distanceToPlayer <= enemy.attackRange && attackCooldownTimer <= 0f)
         {
             ChangeState(EnemyState.Attack);
         }
@@ -147,7 +149,7 @@ public class EnemyAI : MonoBehaviour
                 break;
 
             case EnemyState.Attack:
-                AttackPlayer();
+                TryAttack();
                 break;
 
             case EnemyState.Return:
@@ -191,22 +193,32 @@ public class EnemyAI : MonoBehaviour
         MoveToward(target.position, enemy.speed);
     }
 
-    private void AttackPlayer()
+    private void TryAttack()
     {
         StopMoving();
 
-        if (isLockedByAttack)
+        if (attackCooldownTimer > 0f)
         {
             return;
         }
 
-        if (cdTimer > 0f)
-        {
-            return;
-        }
+        StartAttack();
+    }
 
-        cdTimer = enemy.attackCd;
-        isLockedByAttack = true;
+    private void StartAttack()
+    {
+        isAttacking = true;
+        hasDealtDamageThisAttack = false;
+        attackCooldownTimer = attackCooldown;
+
+        if (enemyAudio != null)
+        {
+            enemyAudio.PlayAttack();
+        }
+        else if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayEnemyAttack();
+        }
 
         if (anim != null)
         {
@@ -214,7 +226,12 @@ public class EnemyAI : MonoBehaviour
             anim.SetTrigger("isAttack");
         }
 
-        Invoke(nameof(UnlockAttack), attackWindupLock);
+        Invoke(nameof(EndAttackLock), attackLockDuration);
+    }
+
+    private void EndAttackLock()
+    {
+        isAttacking = false;
     }
 
     private void ReturnToSpawn()
@@ -288,14 +305,14 @@ public class EnemyAI : MonoBehaviour
         return stateInfo.IsTag("Attack");
     }
 
-    private void UnlockAttack()
-    {
-        isLockedByAttack = false;
-    }
-
     public void DealDamage()
     {
         if (target == null || enemy == null)
+        {
+            return;
+        }
+
+        if (hasDealtDamageThisAttack)
         {
             return;
         }
@@ -311,12 +328,15 @@ public class EnemyAI : MonoBehaviour
 
         if (player != null)
         {
+            hasDealtDamageThisAttack = true;
             player.TakeDamage(enemy.damage);
         }
     }
 
     private void OnDisable()
     {
+        CancelInvoke();
+
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;

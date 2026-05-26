@@ -3,6 +3,13 @@ using System.Collections;
 
 public class WeaponAttack : MonoBehaviour
 {
+    public enum WeaponType
+    {
+        Sword,
+        Gun
+    }
+
+    public WeaponType weaponType;
     public float damage = 10f;
     public Collider2D weaponCollider;
 
@@ -33,7 +40,25 @@ public class WeaponAttack : MonoBehaviour
             return;
         }
 
+        PlayAttackSound();
         StartCoroutine(HitRoutine());
+    }
+
+    private void PlayAttackSound()
+    {
+        if (SFXManager.Instance == null)
+        {
+            return;
+        }
+
+        if (weaponType == WeaponType.Sword)
+        {
+            SFXManager.Instance.PlaySwordSlash();
+        }
+        else if (weaponType == WeaponType.Gun)
+        {
+            SFXManager.Instance.PlayGunShot();
+        }
     }
 
     IEnumerator HitRoutine()

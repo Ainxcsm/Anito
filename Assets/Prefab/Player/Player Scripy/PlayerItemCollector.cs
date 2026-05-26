@@ -12,12 +12,33 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (pickupLocked) return;
+        if (pickupLocked)
+        {
+            return;
+        }
 
-        if (!collision.CompareTag("Item")) return;
+        if (!collision.CompareTag("Item"))
+        {
+            return;
+        }
 
         Item item = collision.GetComponent<Item>();
-        if (item == null) return;
+
+        if (item == null)
+        {
+            return;
+        }
+
+        if (inventoryController == null)
+        {
+            inventoryController = FindAnyObjectByType<InventoryController>();
+        }
+
+        if (inventoryController == null)
+        {
+            Debug.LogError("InventoryController not found.");
+            return;
+        }
 
         pickupLocked = true;
 
@@ -27,15 +48,18 @@ public class PlayerItemCollector : MonoBehaviour
 
         if (added)
         {
+            if (SFXManager.Instance != null)
+            {
+                SFXManager.Instance.PlayItemPickup();
+            }
+
             item.Pickup();
 
-            // 🔥 IMPORTANT: disable collider FIRST
             collision.enabled = false;
 
             Destroy(collision.gameObject);
         }
 
-        // allow next pickup next frame
         StartCoroutine(ResetPickup());
     }
 

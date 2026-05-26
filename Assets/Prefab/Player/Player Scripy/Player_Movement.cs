@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ public class Running : MonoBehaviour
     private bool canMove = true;
     private bool dialogueLocked = false;
     private bool actionLocked = false;
+    private bool damageLocked = false;
 
     [Header("Dash Settings")]
     public float dashForce = .75f;
@@ -27,12 +29,18 @@ public class Running : MonoBehaviour
     private float dashTime;
     private float lastDash = -Mathf.Infinity;
     private Vector2 dashDirection;
+    private Coroutine damageStunCoroutine;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (statPlayer == null)
+        {
+            statPlayer = GetComponent<StatPlayer>();
+        }
     }
 
     void Update()
@@ -110,7 +118,7 @@ public class Running : MonoBehaviour
     {
         UpdateMovementLock();
 
-        if (isDashing)
+        if (isDashing && canMove)
         {
             if (dashTime > 0)
             {
@@ -140,7 +148,7 @@ public class Running : MonoBehaviour
 
     void StartDash()
     {
-        if (dialogueLocked)
+        if (dialogueLocked || damageLocked)
         {
             return;
         }
@@ -155,6 +163,11 @@ public class Running : MonoBehaviour
             dashDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
         }
 
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayDash();
+        }
+
         if (animator != null)
         {
             animator.SetTrigger("Dash");
@@ -166,7 +179,7 @@ public class Running : MonoBehaviour
 
     public void AttackMelee()
     {
-        if (dialogueLocked)
+        if (dialogueLocked || damageLocked)
         {
             return;
         }
@@ -182,7 +195,7 @@ public class Running : MonoBehaviour
 
     public void AttackGun()
     {
-        if (dialogueLocked)
+        if (dialogueLocked || damageLocked)
         {
             return;
         }
@@ -237,22 +250,70 @@ public class Running : MonoBehaviour
 
         if (locked)
         {
-            moveInput = Vector2.zero;
+            StopPlayerMovement();
+        }
+    }
 
-            if (rb != null)
-            {
-                rb.linearVelocity = Vector2.zero;
-            }
+    public void StunFromDamage(float duration)
+    {
+        if (!gameObject.activeInHierarchy)
+        {
+            return;
+        }
 
-            if (animator != null)
-            {
-                animator.SetBool("isMoving", false);
-            }
+        if (damageStunCoroutine != null)
+        {
+            StopCoroutine(damageStunCoroutine);
+        }
+
+        damageStunCoroutine = StartCoroutine(DamageStunRoutine(duration));
+    }
+
+    private IEnumerator DamageStunRoutine(float duration)
+    {
+        damageLocked = true;
+        isDashing = false;
+        actionLocked = false;
+
+        if (swordAttack != null)
+        {
+            swordAttack.StopAttack();
+            swordAttack.isActiveWeapon = false;
+        }
+
+        if (gunAttack != null)
+        {
+            gunAttack.StopAttack();
+            gunAttack.isActiveWeapon = false;
+        }
+
+        UpdateMovementLock();
+        StopPlayerMovement();
+
+        yield return new WaitForSeconds(duration);
+
+        damageLocked = false;
+        damageStunCoroutine = null;
+        UpdateMovementLock();
+    }
+
+    private void StopPlayerMovement()
+    {
+        moveInput = Vector2.zero;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", false);
         }
     }
 
     private void UpdateMovementLock()
     {
-        canMove = !dialogueLocked && !actionLocked;
+        canMove = !dialogueLocked && !actionLocked && !damageLocked;
     }
 }
