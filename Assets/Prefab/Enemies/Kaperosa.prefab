@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5627704574238449411}
   - component: {fileID: 6829414564899787987}
   - component: {fileID: 4075178263951301946}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Kaperosa
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   damage: 5
   attackRange: 0.225
   detectionRange: 10
-  attackCd: 0.5
+  attackCd: 1
   currentHealth: 0
   animator: {fileID: 1503152800732899440}
   lootTable:
@@ -230,7 +230,7 @@ MonoBehaviour:
   patrolRadius: 2
   patrolWaitTime: 1.5
   returnToSpawnWhenLost: 1
-  attackWindupLock: 0.35
+  attackAnimationLockDuration: 1
 --- !u!114 &4075178263951301946
 MonoBehaviour:
   m_ObjectHideFlags: 0

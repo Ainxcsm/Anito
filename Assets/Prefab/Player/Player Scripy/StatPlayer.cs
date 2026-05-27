@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class StatPlayer : MonoBehaviour
@@ -11,7 +10,7 @@ public class StatPlayer : MonoBehaviour
     public float defense = 5;
 
     [Header("Damage Stun")]
-    public float damageStunDuration = 0.3f;
+    public float damageStunDuration = 0.7f;
 
     [HideInInspector] public float currentHealth;
     public bool isDead = false;
@@ -42,6 +41,8 @@ public class StatPlayer : MonoBehaviour
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, health);
 
+        Debug.Log("PLAYER TOOK DAMAGE: " + amount);
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -49,14 +50,18 @@ public class StatPlayer : MonoBehaviour
             return;
         }
 
-        if (anim != null)
-        {
-            anim.SetTrigger("isHurt");
-        }
-
         if (playerMovement != null)
         {
             playerMovement.StunFromDamage(damageStunDuration);
+        }
+        else
+        {
+            Debug.LogError("Running script not found on player.");
+        }
+
+        if (anim != null)
+        {
+            anim.SetTrigger("isHurt");
         }
     }
 
@@ -110,11 +115,5 @@ public class StatPlayer : MonoBehaviour
         {
             Time.timeScale = 0f;
         }
-    }
-
-    IEnumerator DestroyAfterDeath(float delay = 1f)
-    {
-        yield return new WaitForSecondsRealtime(delay);
-        Destroy(gameObject);
     }
 }

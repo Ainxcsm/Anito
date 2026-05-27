@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,7 +28,8 @@ public class Running : MonoBehaviour
     private float dashTime;
     private float lastDash = -Mathf.Infinity;
     private Vector2 dashDirection;
-    private Coroutine damageStunCoroutine;
+
+    private float damageLockEndTime = 0f;
 
     void Start()
     {
@@ -45,7 +45,15 @@ public class Running : MonoBehaviour
 
     void Update()
     {
+        UpdateDamageLock();
         UpdateMovementLock();
+
+        if (damageLocked || dialogueLocked)
+        {
+            CancelDash();
+            ForceStopMovement();
+            return;
+        }
 
         if (!canMove)
         {
@@ -116,9 +124,17 @@ public class Running : MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateDamageLock();
         UpdateMovementLock();
 
-        if (isDashing && canMove)
+        if (damageLocked || dialogueLocked)
+        {
+            CancelDash();
+            ForceStopMovement();
+            return;
+        }
+
+        if (isDashing)
         {
             if (dashTime > 0)
             {
@@ -127,28 +143,27 @@ public class Running : MonoBehaviour
             }
             else
             {
-                isDashing = false;
-                rb.linearVelocity = Vector2.zero;
-                actionLocked = false;
-                UpdateMovementLock();
+                StopDash();
             }
+
+            return;
+        }
+
+        if (canMove)
+        {
+            rb.linearVelocity = moveInput * statPlayer.speed;
         }
         else
         {
-            if (canMove)
-            {
-                rb.linearVelocity = moveInput * statPlayer.speed;
-            }
-            else
-            {
-                rb.linearVelocity = Vector2.zero;
-            }
+            rb.linearVelocity = Vector2.zero;
         }
     }
 
     void StartDash()
     {
-        if (dialogueLocked || damageLocked)
+        UpdateDamageLock();
+
+        if (dialogueLocked || damageLocked || isDashing)
         {
             return;
         }
@@ -160,7 +175,14 @@ public class Running : MonoBehaviour
 
         if (dashDirection == Vector2.zero)
         {
-            dashDirection = spriteRenderer.flipX ? Vector2.left : Vector2.right;
+            if (spriteRenderer != null && spriteRenderer.flipX)
+            {
+                dashDirection = Vector2.left;
+            }
+            else
+            {
+                dashDirection = Vector2.right;
+            }
         }
 
         if (SFXManager.Instance != null)
@@ -177,9 +199,41 @@ public class Running : MonoBehaviour
         UpdateMovementLock();
     }
 
+    private void StopDash()
+    {
+        isDashing = false;
+        dashTime = 0f;
+        dashDirection = Vector2.zero;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        actionLocked = false;
+        UpdateMovementLock();
+    }
+
+    private void CancelDash()
+    {
+        isDashing = false;
+        dashTime = 0f;
+        dashDirection = Vector2.zero;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        actionLocked = false;
+        UpdateMovementLock();
+    }
+
     public void AttackMelee()
     {
-        if (dialogueLocked || damageLocked)
+        UpdateDamageLock();
+
+        if (dialogueLocked || damageLocked || isDashing)
         {
             return;
         }
@@ -195,7 +249,9 @@ public class Running : MonoBehaviour
 
     public void AttackGun()
     {
-        if (dialogueLocked || damageLocked)
+        UpdateDamageLock();
+
+        if (dialogueLocked || damageLocked || isDashing)
         {
             return;
         }
@@ -223,7 +279,15 @@ public class Running : MonoBehaviour
             gunAttack.isActiveWeapon = false;
         }
 
-        UnlockMovement();
+        if (!damageLocked && !dialogueLocked)
+        {
+            UnlockMovement();
+        }
+        else
+        {
+            actionLocked = false;
+            UpdateMovementLock();
+        }
     }
 
     public void LockMovement()
@@ -250,29 +314,18 @@ public class Running : MonoBehaviour
 
         if (locked)
         {
-            StopPlayerMovement();
+            CancelDash();
+            ForceStopMovement();
         }
     }
 
     public void StunFromDamage(float duration)
     {
-        if (!gameObject.activeInHierarchy)
-        {
-            return;
-        }
-
-        if (damageStunCoroutine != null)
-        {
-            StopCoroutine(damageStunCoroutine);
-        }
-
-        damageStunCoroutine = StartCoroutine(DamageStunRoutine(duration));
-    }
-
-    private IEnumerator DamageStunRoutine(float duration)
-    {
         damageLocked = true;
-        isDashing = false;
+        damageLockEndTime = Time.time + duration;
+
+        CancelDash();
+
         actionLocked = false;
 
         if (swordAttack != null)
@@ -287,17 +340,22 @@ public class Running : MonoBehaviour
             gunAttack.isActiveWeapon = false;
         }
 
+        ForceStopMovement();
         UpdateMovementLock();
-        StopPlayerMovement();
 
-        yield return new WaitForSeconds(duration);
-
-        damageLocked = false;
-        damageStunCoroutine = null;
-        UpdateMovementLock();
+        Debug.Log("PLAYER STUNNED FOR: " + duration);
     }
 
-    private void StopPlayerMovement()
+    private void UpdateDamageLock()
+    {
+        if (damageLocked && Time.time >= damageLockEndTime)
+        {
+            damageLocked = false;
+            UpdateMovementLock();
+        }
+    }
+
+    private void ForceStopMovement()
     {
         moveInput = Vector2.zero;
 

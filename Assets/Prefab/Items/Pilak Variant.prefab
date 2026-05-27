@@ -21,6 +21,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -8091627033847786955, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
     - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: itemKey
+      value: pilak
+      objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: uiPrefab
       value: 
       objectReference: {fileID: 1128896646273164015}

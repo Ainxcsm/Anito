@@ -49,7 +49,7 @@ public class InventoryController : MonoBehaviour
             {
                 Item slotItem = slot.currentItem.GetComponent<Item>();
 
-                if (slotItem != null && slotItem.ID == itemToAdd.ID)
+                if (slotItem != null && slotItem.CanStackWith(itemToAdd))
                 {
                     slotItem.AddToStack(1);
                     return true;
@@ -80,6 +80,7 @@ public class InventoryController : MonoBehaviour
                 if (newItemComponent != null)
                 {
                     newItemComponent.ID = itemToAdd.ID;
+                    newItemComponent.itemKey = itemToAdd.GetStackKey();
                     newItemComponent.Name = itemToAdd.Name;
                     newItemComponent.icon = itemToAdd.icon;
                     newItemComponent.uiPrefab = itemToAdd.uiPrefab;

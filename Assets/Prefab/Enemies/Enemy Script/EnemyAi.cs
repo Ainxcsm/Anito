@@ -26,9 +26,8 @@ public class EnemyAI : MonoBehaviour
     public float patrolWaitTime = 1.5f;
     public bool returnToSpawnWhenLost = true;
 
-    [Header("Attack Cooldown")]
-    public float attackCooldown = 1.5f;
-    public float attackLockDuration = 0.45f;
+    [Header("Attack")]
+    public float attackAnimationLockDuration = 0.45f;
 
     private EnemyState currentState = EnemyState.Idle;
     private Vector2 spawnPosition;
@@ -66,11 +65,6 @@ public class EnemyAI : MonoBehaviour
         {
             rb.freezeRotation = true;
             rb.gravityScale = 0;
-        }
-
-        if (enemy != null)
-        {
-            attackCooldown = enemy.attackCd;
         }
 
         PickNewPatrolTarget();
@@ -209,7 +203,8 @@ public class EnemyAI : MonoBehaviour
     {
         isAttacking = true;
         hasDealtDamageThisAttack = false;
-        attackCooldownTimer = attackCooldown;
+
+        attackCooldownTimer = enemy.attackCd;
 
         if (enemyAudio != null)
         {
@@ -226,7 +221,7 @@ public class EnemyAI : MonoBehaviour
             anim.SetTrigger("isAttack");
         }
 
-        Invoke(nameof(EndAttackLock), attackLockDuration);
+        Invoke(nameof(EndAttackLock), attackAnimationLockDuration);
     }
 
     private void EndAttackLock()
@@ -251,6 +246,7 @@ public class EnemyAI : MonoBehaviour
     private void MoveToward(Vector2 destination, float moveSpeed)
     {
         Vector2 direction = (destination - (Vector2)transform.position).normalized;
+
         rb.linearVelocity = direction * moveSpeed;
 
         if (anim != null)
