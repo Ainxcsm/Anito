@@ -1,7 +1,9 @@
-Add coin drops and coin counter system
+Fix inventory UI reset and coin drop system
 
-- Added coin drops from enemies and breakables
-- Added coin collection handling
-- Added coin bounce effect with safe landing
-- Added CoinManager and coin UI counter
-- Updated item collector to collect both items and coins
+- Added coin drop system for enemies and breakables
+- Added coin collection and coin counter UI
+- Added coin bounce behavior
+- Updated item collector to support coins and inventory items
+- Added UI lock so player cannot move while tabs are open
+- Added inventory selection reset handling
+- Adjusted inventory UI behavior for selected slots

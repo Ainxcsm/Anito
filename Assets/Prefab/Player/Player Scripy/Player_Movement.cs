@@ -18,6 +18,7 @@ public class Running : MonoBehaviour
     private bool dialogueLocked = false;
     private bool actionLocked = false;
     private bool damageLocked = false;
+    private bool uiLocked = false;
 
     [Header("Dash Settings")]
     public float dashForce = .75f;
@@ -48,7 +49,7 @@ public class Running : MonoBehaviour
         UpdateDamageLock();
         UpdateMovementLock();
 
-        if (damageLocked || dialogueLocked)
+        if (damageLocked || dialogueLocked || uiLocked)
         {
             CancelDash();
             ForceStopMovement();
@@ -127,7 +128,7 @@ public class Running : MonoBehaviour
         UpdateDamageLock();
         UpdateMovementLock();
 
-        if (damageLocked || dialogueLocked)
+        if (damageLocked || dialogueLocked || uiLocked)
         {
             CancelDash();
             ForceStopMovement();
@@ -163,7 +164,7 @@ public class Running : MonoBehaviour
     {
         UpdateDamageLock();
 
-        if (dialogueLocked || damageLocked || isDashing)
+        if (dialogueLocked || damageLocked || uiLocked || isDashing)
         {
             return;
         }
@@ -233,7 +234,7 @@ public class Running : MonoBehaviour
     {
         UpdateDamageLock();
 
-        if (dialogueLocked || damageLocked || isDashing)
+        if (dialogueLocked || damageLocked || uiLocked || isDashing)
         {
             return;
         }
@@ -251,7 +252,7 @@ public class Running : MonoBehaviour
     {
         UpdateDamageLock();
 
-        if (dialogueLocked || damageLocked || isDashing)
+        if (dialogueLocked || damageLocked || uiLocked || isDashing)
         {
             return;
         }
@@ -279,7 +280,7 @@ public class Running : MonoBehaviour
             gunAttack.isActiveWeapon = false;
         }
 
-        if (!damageLocked && !dialogueLocked)
+        if (!damageLocked && !dialogueLocked && !uiLocked)
         {
             UnlockMovement();
         }
@@ -310,6 +311,18 @@ public class Running : MonoBehaviour
     public void SetDialogueLock(bool locked)
     {
         dialogueLocked = locked;
+        UpdateMovementLock();
+
+        if (locked)
+        {
+            CancelDash();
+            ForceStopMovement();
+        }
+    }
+
+    public void SetUILock(bool locked)
+    {
+        uiLocked = locked;
         UpdateMovementLock();
 
         if (locked)
@@ -372,6 +385,6 @@ public class Running : MonoBehaviour
 
     private void UpdateMovementLock()
     {
-        canMove = !dialogueLocked && !actionLocked && !damageLocked;
+        canMove = !dialogueLocked && !actionLocked && !damageLocked && !uiLocked;
     }
 }
