@@ -16,7 +16,7 @@ jobs:
           GITHUB_ACTOR: ${{ github.actor }}
           COMMITS_JSON: ${{ toJson(github.event.commits) }}
         run: |
-          COMMITS=$(echo "$COMMITS_JSON" | jq -r '.[] | "• " + .message')
+          COMMITS=$(echo "$COMMITS_JSON" | jq -r '.[] | "```" + .message + "```"')
 
           MESSAGE="**New Push by $GITHUB_ACTOR**
 
