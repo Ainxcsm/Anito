@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 630666463346292419}
   - component: {fileID: 4613447322664090531}
   - component: {fileID: 7397552164639243333}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SwordHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8700a65114025de4fa8d2b68b5702951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponAttack
+  weaponType: 0
   damage: 10
   weaponCollider: {fileID: 4613447322664090531}
   isActiveWeapon: 0
@@ -105,7 +106,7 @@ GameObject:
   - component: {fileID: 7539774052137957159}
   - component: {fileID: 3772349553965961759}
   - component: {fileID: 8107779165340832710}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GunHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8700a65114025de4fa8d2b68b5702951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponAttack
+  weaponType: 0
   damage: 10
   weaponCollider: {fileID: 3772349553965961759}
   isActiveWeapon: 0
@@ -198,7 +200,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4902110745552759868}
   - component: {fileID: 2632860793136765911}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InteractionIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -267,7 +269,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -5419310489963565622, guid: 2899834764c81184c94ac781a86d69fb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -290,7 +292,7 @@ GameObject:
   - component: {fileID: 1982814851618928421}
   - component: {fileID: 2769369700309667181}
   - component: {fileID: 8066475446106588714}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: InteractionDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -347,8 +349,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.22
+  m_Offset: {x: 0.0063398853, y: 0}
+  m_Radius: 0.15
 --- !u!114 &8066475446106588714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,7 +381,7 @@ GameObject:
   - component: {fileID: 3781779754120646112}
   - component: {fileID: 3429671479618918103}
   - component: {fileID: 8197424979878068415}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -524,7 +526,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.03458833, y: -0.14444646}
+  m_Offset: {x: 0.035103105, y: -0.12515406}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -534,7 +536,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.142619, y: 0.013584733}
+  m_Size: {x: 0.14218532, y: 0.052481383}
   m_EdgeRadius: 0
 --- !u!95 &276466670808288841
 Animator:
@@ -585,6 +587,7 @@ MonoBehaviour:
   statPlayer: {fileID: 3429671479618918103}
   swordAttack: {fileID: 7397552164639243333}
   gunAttack: {fileID: 8107779165340832710}
+  interactionDetector: {fileID: 8066475446106588714}
   dashForce: 2.5
   dashDuration: 0.35
   dashCooldown: 1
@@ -605,6 +608,7 @@ MonoBehaviour:
   meleeDamage: 10
   rangeDamage: 12
   defense: 5
+  damageStunDuration: 0.3
   currentHealth: 0
   isDead: 0
   anim: {fileID: 276466670808288841}

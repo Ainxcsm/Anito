@@ -1,9 +1,6 @@
-Fix inventory UI reset and coin drop system
+Added coin animation
 
-- Added coin drop system for enemies and breakables
-- Added coin collection and coin counter UI
-- Added coin bounce behavior
-- Updated item collector to support coins and inventory items
-- Added UI lock so player cannot move while tabs are open
-- Added inventory selection reset handling
-- Adjusted inventory UI behavior for selected slots
+- Added looping idle animation for coin pickup
+- Added/updated coin Animator Controller
+- Applied coin animation setup to coin prefab
+- Revamped the looks of the coin

@@ -1372,7 +1372,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 9
-      m_TileSpriteIndex: 4294967295
+      m_TileSpriteIndex: 61
       m_TileMatrixIndex: 0
       m_TileColorIndex: 1
       m_TileObjectToInstantiateIndex: 65535
@@ -7576,6 +7576,9 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 3
     m_Data: {fileID: 2013489767, guid: d193069100a91b24f97de57794471efa, type: 3}
+  - serializedVersion: 2
+    m_RefCount: 1
+    m_Data: {fileID: 591609318}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 679
@@ -8813,7 +8816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   inventoryPanel: {fileID: 1347286395}
   slotPrefab: {fileID: 1235561141312554995, guid: 186eef17d3777ae4ba43347d332f4c35, type: 3}
-  slotCount: 19
+  slotCount: 20
 --- !u!114 &387891180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8845,7 +8848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   coins: 0
-  coinText: {fileID: 0}
+  coinText: {fileID: 859550455}
 --- !u!114 &426213488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 760498496981965085, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
@@ -10064,6 +10067,17 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 9.393873, y: 4.6396136}
   m_EdgeRadius: 0
+--- !u!114 &859550455 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6510701117372907917, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
+  m_PrefabInstance: {fileID: 3999052661170127888}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
 --- !u!1 &907896630
 GameObject:
   m_ObjectHideFlags: 0
@@ -21706,6 +21720,9 @@ Tilemap:
   - serializedVersion: 2
     m_RefCount: 24
     m_Data: {fileID: -964171566, guid: 66d11b004975c3245a746f65bbdbcbd2, type: 3}
+  - serializedVersion: 2
+    m_RefCount: 0
+    m_Data: {fileID: 955830267}
   m_TileMatrixArray:
   - serializedVersion: 2
     m_RefCount: 976
@@ -22162,9 +22179,13 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 931163319674426549, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1641903289189341233, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -150
+      value: -150.00002
       objectReference: {fileID: 0}
     - target: {fileID: 2221299975441769345, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_Pivot.x
@@ -22254,42 +22275,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI Game
       objectReference: {fileID: 0}
-    - target: {fileID: 6200001249529728700, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -9.51
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200001249529728700, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -13.410002
-      objectReference: {fileID: 0}
     - target: {fileID: 8123125377880248671, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 386857312}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9186180361218295667, guid: 8027fe561c6ab2940943ce1a9ad1e222, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
