@@ -11,9 +11,29 @@ jobs:
 
     steps:
       - name: Send commits to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          GITHUB_ACTOR: ${{ github.actor }}
+          COMMITS_JSON: ${{ toJson(github.event.commits) }}
         run: |
-          COMMITS=$(echo '${{ toJson(github.event.commits) }}' | jq -r '.[] | "- \(.message)"')
+          COMMITS=$(echo "$COMMITS_JSON" | jq -r '.[] | "• " + .message')
+
+          MESSAGE="**New Push by $GITHUB_ACTOR**
+
+          **Commits:**
+          $COMMITS
+
+          ━━━━━━━━━━━━━━
+          **DEV REMINDER**
+          • git pull before opening the project
+          • git add .
+          • git commit -m \"message\"
+          • git push
+
+          @everyone"
+
+          jq -n --arg content "$MESSAGE" '{content: $content}' > payload.json
 
           curl -H "Content-Type: application/json" \
-          -d "{\"content\":\"**New Push by ${{ github.actor }}**\\n\\n **Commits:**\\n$COMMITS\\n\\n━━━━━━━━━━━━━━\\n **DEV REMINDER**\\n• git pull before opening the project\\n• git add .\\n• git commit -m \\\"message\\\"\\n• git push \n\n@everyone\"}" \
-          ${{ secrets.DISCORD_WEBHOOK }}
+               -d @payload.json \
+               "$DISCORD_WEBHOOK"
