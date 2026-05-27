@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 9080293281713981854}
   - component: {fileID: 3556517376752343286}
   m_Layer: 12
-  m_Name: BreakableJar 1 1
+  m_Name: 'BreakableJar '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,6 +143,11 @@ MonoBehaviour:
   maxHealth: 1
   possibleDrops: []
   dropChance: 1
+  coinPrefab: {fileID: 856252320795478925, guid: f9e1c19c6d423324ead725cfb7148ab7, type: 3}
+  dropCoins: 1
+  minCoins: 1
+  maxCoins: 3
+  coinDropSpread: 0.25
   breakEffect: {fileID: 0}
 --- !u!95 &5390076087404071055
 Animator:

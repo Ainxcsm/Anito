@@ -221,6 +221,11 @@ MonoBehaviour:
     chance: 3
   - itemPrefab: {fileID: 7114614088450402545, guid: 7462d09b4bb6e9f4dbdeab29390d3631, type: 3}
     chance: 1
+  coinPrefab: {fileID: 856252320795478925, guid: f9e1c19c6d423324ead725cfb7148ab7, type: 3}
+  dropCoins: 1
+  minCoins: 1
+  maxCoins: 5
+  coinDropSpread: 0.3
 --- !u!114 &2566162163924344032
 MonoBehaviour:
   m_ObjectHideFlags: 0

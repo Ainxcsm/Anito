@@ -5,9 +5,16 @@ public class Breakable : MonoBehaviour
     [Header("Stats")]
     public float maxHealth = 1f;
 
-    [Header("Drop Settings")]
+    [Header("Item Drop Settings")]
     public GameObject[] possibleDrops;
     public float dropChance = 1f;
+
+    [Header("Coin Drop Settings")]
+    public GameObject coinPrefab;
+    public bool dropCoins = true;
+    public int minCoins = 1;
+    public int maxCoins = 3;
+    public float coinDropSpread = 0.25f;
 
     [Header("Effects")]
     public GameObject breakEffect;
@@ -33,11 +40,6 @@ public class Breakable : MonoBehaviour
 
         currentHealth -= damage;
 
-        if (animator != null)
-        {
-            animator.SetTrigger("Hit");
-        }
-
         if (currentHealth <= 0f)
         {
             Break();
@@ -58,7 +60,13 @@ public class Breakable : MonoBehaviour
             col.enabled = false;
         }
 
+        if (SFXManager.Instance != null)
+        {
+            SFXManager.Instance.PlayBreakableBreak();
+        }
+
         DropItem();
+        DropCoins();
 
         if (breakEffect != null)
         {
@@ -95,6 +103,29 @@ public class Breakable : MonoBehaviour
         if (selectedDrop != null)
         {
             Instantiate(selectedDrop, transform.position, Quaternion.identity);
+        }
+    }
+
+    private void DropCoins()
+    {
+        if (!dropCoins)
+        {
+            return;
+        }
+
+        if (coinPrefab == null)
+        {
+            return;
+        }
+
+        int coinAmount = Random.Range(minCoins, maxCoins + 1);
+
+        for (int i = 0; i < coinAmount; i++)
+        {
+            Vector2 randomOffset = Random.insideUnitCircle * coinDropSpread;
+            Vector3 spawnPosition = transform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+            Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
         }
     }
 

@@ -1,0 +1,7 @@
+Add coin drops and coin counter system
+
+- Added coin drops from enemies and breakables
+- Added coin collection handling
+- Added coin bounce effect with safe landing
+- Added CoinManager and coin UI counter
+- Updated item collector to collect both items and coins

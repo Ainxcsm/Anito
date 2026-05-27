@@ -12,6 +12,19 @@ public class PlayerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Coin coin = collision.GetComponent<Coin>();
+
+        if (coin != null)
+        {
+            coin.Collect();
+            return;
+        }
+
+        TryCollectItem(collision);
+    }
+
+    private void TryCollectItem(Collider2D collision)
+    {
         if (pickupLocked)
         {
             return;

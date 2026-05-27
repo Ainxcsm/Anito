@@ -19,19 +19,29 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D rb;
     private Collider2D col;
-    private SpriteRenderer[] spriteRenderers;
     private EnemyAudio enemyAudio;
 
     [Header("Loot")]
     public LootEntry[] lootTable;
+
+    [Header("Coin Drop Settings")]
+    public GameObject coinPrefab;
+    public bool dropCoins = true;
+    public int minCoins = 1;
+    public int maxCoins = 5;
+    public float coinDropSpread = 0.3f;
 
     void Awake()
     {
         currentHealth = maxHealth;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
         enemyAudio = GetComponent<EnemyAudio>();
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     public void TakeDamage(float amount)
@@ -52,7 +62,7 @@ public class Enemy : MonoBehaviour
             SFXManager.Instance.PlayEnemyHit();
         }
 
-        Debug.Log($"Enemy hit: {amount} | HP: {currentHealth}");
+        Debug.Log("Enemy hit: " + amount + " | HP: " + currentHealth);
 
         if (currentHealth <= 0f)
         {
@@ -83,7 +93,7 @@ public class Enemy : MonoBehaviour
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
-            rb.isKinematic = true;
+            rb.bodyType = RigidbodyType2D.Kinematic;
         }
 
         if (col != null)
@@ -98,12 +108,17 @@ public class Enemy : MonoBehaviour
             ai.enabled = false;
         }
 
+        DropLoot();
+        DropCoins();
+
         if (animator != null)
         {
             animator.SetTrigger("Die");
         }
-
-        DropLoot();
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void DropLoot()
@@ -118,6 +133,11 @@ public class Enemy : MonoBehaviour
         foreach (var item in lootTable)
         {
             total += item.chance;
+        }
+
+        if (total <= 0f)
+        {
+            return;
         }
 
         float roll = Random.Range(0f, total);
@@ -137,6 +157,29 @@ public class Enemy : MonoBehaviour
 
                 return;
             }
+        }
+    }
+
+    private void DropCoins()
+    {
+        if (!dropCoins)
+        {
+            return;
+        }
+
+        if (coinPrefab == null)
+        {
+            return;
+        }
+
+        int coinAmount = Random.Range(minCoins, maxCoins + 1);
+
+        for (int i = 0; i < coinAmount; i++)
+        {
+            Vector2 randomOffset = Random.insideUnitCircle * coinDropSpread;
+            Vector3 spawnPosition = transform.position + new Vector3(randomOffset.x, randomOffset.y, 0f);
+
+            Instantiate(coinPrefab, spawnPosition, Quaternion.identity);
         }
     }
 
