@@ -1,8 +1,10 @@
-Add passive item effect system
+Add player skill animation and stun effect
 
-- Added editable passive item effects through the Inspector
-- Removed range damage effect from item effects
-- Added heal over time, damage over time, lifesteal, cooldown reduction, crit chance, crit damage, attack speed, armor reduction, and evasion effects
-- Updated player stats to recalculate based on inventory items and item quantity
-- Updated weapon attacks to apply crits, lifesteal, DOT, and armor reduction
-- Updated enemies to support armor, DOT, and temporary armor reduction
+- Added player Skill1 casting animation setup
+- Added separate skill effect animation and controller
+- Added skill effect trigger timing with backup delay
+- Added Skill layer hitbox for skill collision detection
+- Added enemy stun effect from skill hitbox
+- Updated EnemyAI to support stun behavior
+- Simplified EnemyAI by removing patrol and return behavior
+- Added manual left/right skill effect positioning and scale

@@ -5,10 +5,8 @@ public class EnemyAI : MonoBehaviour
     private enum EnemyState
     {
         Idle,
-        Patrol,
         Chase,
-        Attack,
-        Return
+        Attack
     }
 
     private Transform target;
@@ -21,21 +19,21 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Movement")]
     public float stopDist = 0.35f;
-    public float lostTargetRange = 7f;
-    public float patrolRadius = 2f;
-    public float patrolWaitTime = 1.5f;
-    public bool returnToSpawnWhenLost = true;
+    public bool alwaysChasePlayer = true;
 
     [Header("Attack")]
     public float attackAnimationLockDuration = 0.45f;
 
+    [Header("Stun")]
+    public bool showStunDebug = true;
+
     private EnemyState currentState = EnemyState.Idle;
-    private Vector2 spawnPosition;
-    private Vector2 patrolTarget;
-    private float patrolTimer = 0f;
     private float attackCooldownTimer = 0f;
     private bool isAttacking = false;
     private bool hasDealtDamageThisAttack = false;
+
+    private bool isStunned = false;
+    private float stunEndTime = 0f;
 
     void Awake()
     {
@@ -48,26 +46,17 @@ public class EnemyAI : MonoBehaviour
         {
             enemy = GetComponent<Enemy>();
         }
-
-        spawnPosition = transform.position;
     }
 
     void Start()
     {
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-
-        if (playerObject != null)
-        {
-            target = playerObject.transform;
-        }
+        FindPlayer();
 
         if (rb != null)
         {
             rb.freezeRotation = true;
             rb.gravityScale = 0;
         }
-
-        PickNewPatrolTarget();
     }
 
     void Update()
@@ -79,12 +68,7 @@ public class EnemyAI : MonoBehaviour
 
         if (target == null)
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-
-            if (playerObject != null)
-            {
-                target = playerObject.transform;
-            }
+            FindPlayer();
         }
     }
 
@@ -94,6 +78,24 @@ public class EnemyAI : MonoBehaviour
         {
             StopMoving();
             return;
+        }
+
+        if (isStunned)
+        {
+            if (Time.time >= stunEndTime)
+            {
+                isStunned = false;
+
+                if (showStunDebug)
+                {
+                    Debug.Log(name + " stun ended.");
+                }
+            }
+            else
+            {
+                StopMoving();
+                return;
+            }
         }
 
         if (isAttacking || IsCurrentlyInAttackAnimation())
@@ -108,34 +110,19 @@ public class EnemyAI : MonoBehaviour
         {
             ChangeState(EnemyState.Attack);
         }
-        else if (distanceToPlayer <= enemy.detectionRange)
+        else if (alwaysChasePlayer || distanceToPlayer <= enemy.detectionRange)
         {
             ChangeState(EnemyState.Chase);
         }
-        else if (currentState == EnemyState.Chase && distanceToPlayer > lostTargetRange)
+        else
         {
-            if (returnToSpawnWhenLost)
-            {
-                ChangeState(EnemyState.Return);
-            }
-            else
-            {
-                ChangeState(EnemyState.Patrol);
-            }
-        }
-        else if (currentState != EnemyState.Return && currentState != EnemyState.Patrol)
-        {
-            ChangeState(EnemyState.Patrol);
+            ChangeState(EnemyState.Idle);
         }
 
         switch (currentState)
         {
             case EnemyState.Idle:
                 StopMoving();
-                break;
-
-            case EnemyState.Patrol:
-                Patrol();
                 break;
 
             case EnemyState.Chase:
@@ -145,10 +132,16 @@ public class EnemyAI : MonoBehaviour
             case EnemyState.Attack:
                 TryAttack();
                 break;
+        }
+    }
 
-            case EnemyState.Return:
-                ReturnToSpawn();
-                break;
+    private void FindPlayer()
+    {
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObject != null)
+        {
+            target = playerObject.transform;
         }
     }
 
@@ -160,20 +153,6 @@ public class EnemyAI : MonoBehaviour
         }
 
         currentState = newState;
-    }
-
-    private void Patrol()
-    {
-        patrolTimer -= Time.fixedDeltaTime;
-
-        float distanceToPatrolTarget = Vector2.Distance(transform.position, patrolTarget);
-
-        if (distanceToPatrolTarget <= 0.15f || patrolTimer <= 0f)
-        {
-            PickNewPatrolTarget();
-        }
-
-        MoveToward(patrolTarget, enemy.speed * 0.45f);
     }
 
     private void ChasePlayer(float distanceToPlayer)
@@ -201,9 +180,13 @@ public class EnemyAI : MonoBehaviour
 
     private void StartAttack()
     {
+        if (isStunned)
+        {
+            return;
+        }
+
         isAttacking = true;
         hasDealtDamageThisAttack = false;
-
         attackCooldownTimer = enemy.attackCd;
 
         if (enemyAudio != null)
@@ -229,22 +212,14 @@ public class EnemyAI : MonoBehaviour
         isAttacking = false;
     }
 
-    private void ReturnToSpawn()
+    private void MoveToward(Vector2 destination, float moveSpeed)
     {
-        float distanceToSpawn = Vector2.Distance(transform.position, spawnPosition);
-
-        if (distanceToSpawn <= 0.2f)
+        if (isStunned)
         {
-            PickNewPatrolTarget();
-            ChangeState(EnemyState.Patrol);
+            StopMoving();
             return;
         }
 
-        MoveToward(spawnPosition, enemy.speed * 0.65f);
-    }
-
-    private void MoveToward(Vector2 destination, float moveSpeed)
-    {
         Vector2 direction = (destination - (Vector2)transform.position).normalized;
 
         rb.linearVelocity = direction * moveSpeed;
@@ -283,13 +258,6 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    private void PickNewPatrolTarget()
-    {
-        Vector2 randomOffset = Random.insideUnitCircle * patrolRadius;
-        patrolTarget = spawnPosition + randomOffset;
-        patrolTimer = patrolWaitTime;
-    }
-
     private bool IsCurrentlyInAttackAnimation()
     {
         if (anim == null)
@@ -301,8 +269,41 @@ public class EnemyAI : MonoBehaviour
         return stateInfo.IsTag("Attack");
     }
 
+    public void Stun(float duration)
+    {
+        if (duration <= 0f)
+        {
+            return;
+        }
+
+        isStunned = true;
+        stunEndTime = Time.time + duration;
+
+        isAttacking = false;
+        hasDealtDamageThisAttack = false;
+
+        CancelInvoke(nameof(EndAttackLock));
+
+        StopMoving();
+
+        if (anim != null)
+        {
+            anim.SetBool("isWalk", false);
+        }
+
+        if (showStunDebug)
+        {
+            Debug.Log(name + " stunned for " + duration + " seconds.");
+        }
+    }
+
     public void DealDamage()
     {
+        if (isStunned)
+        {
+            return;
+        }
+
         if (target == null || enemy == null)
         {
             return;
@@ -341,15 +342,10 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Vector2 center = Application.isPlaying ? spawnPosition : (Vector2)transform.position;
-
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, enemy != null ? enemy.detectionRange : 5f);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemy != null ? enemy.attackRange : 1f);
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(center, patrolRadius);
     }
 }
