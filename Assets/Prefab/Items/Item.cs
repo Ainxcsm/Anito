@@ -1,5 +1,43 @@
+using System;
 using TMPro;
 using UnityEngine;
+
+public enum ItemEffectType
+{
+    MaxHealth,
+    Speed,
+    MeleeDamage,
+    Defense,
+    HealOverTime,
+    DamageOverTime,
+    LifeSteal,
+    CooldownReduction,
+    CritChance,
+    CritDamage,
+    AttackSpeed,
+    EnemyArmorReduction,
+    Evasion
+}
+
+public enum CooldownReductionTarget
+{
+    Dash,
+    Skill
+}
+
+[Serializable]
+public class ItemEffect
+{
+    public ItemEffectType effectType;
+    public float amount = 1f;
+    public bool scaleWithQuantity = true;
+
+    [Header("Only for CooldownReduction")]
+    public CooldownReductionTarget cooldownTarget;
+
+    [Header("Only for DamageOverTime / ArmorReduction")]
+    public float duration = 3f;
+}
 
 public class Item : MonoBehaviour
 {
@@ -9,6 +47,10 @@ public class Item : MonoBehaviour
     public Sprite icon;
     public GameObject uiPrefab;
     public int quantity = 1;
+
+    [Header("Passive Inventory Effects")]
+    public bool hasPassiveEffect = false;
+    public ItemEffect[] effects;
 
     private TMP_Text quantityText;
 
@@ -78,14 +120,6 @@ public class Item : MonoBehaviour
     {
         quantity += amount;
         UpdateQuantityDisplay();
-    }
-
-    public int RemoveFromStack(int amount = 1)
-    {
-        int removed = Mathf.Min(amount, quantity);
-        quantity -= removed;
-        UpdateQuantityDisplay();
-        return removed;
     }
 
     public void Pickup()

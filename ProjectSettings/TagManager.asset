@@ -23,8 +23,8 @@ TagManager:
   - Breakables
   - Coin
   - Skill
-  - 
-  - 
+  - Object Hitbox
+  - Effects
   - 
   - 
   - 
@@ -46,6 +46,9 @@ TagManager:
     locked: 0
   - name: Collision
     uniqueID: 1833225729
+    locked: 0
+  - name: Effects
+    uniqueID: 4043395905
     locked: 0
   - name: Decor
     uniqueID: 3365161895

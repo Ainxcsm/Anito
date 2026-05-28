@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &208883434981106418
+--- !u!1001 &8495685106268429951
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,52 +9,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: ID
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: Name
-      value: Lagundi
+      value: Saltveil
       objectReference: {fileID: 0}
     - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: -1321127195952521255, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
+      objectReference: {fileID: -9028847697882633080, guid: 8bcaa63e70b0e2a4e93e356e2368a30a, type: 3}
     - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: itemKey
-      value: lagundi
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: uiPrefab
-      value: 
-      objectReference: {fileID: 6529110803229401256}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: hasPassiveEffect
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.data[0].amount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.data[1].amount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.data[0].effectType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.data[0].scaleWithQuantity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-      propertyPath: effects.Array.data[1].scaleWithQuantity
-      value: 1
+      value: saltveil
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_Pivot.x
@@ -98,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_LocalRotation.w
@@ -118,11 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 1.565
+      value: -960
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.007
+      value: -540
       objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -139,22 +103,21 @@ PrefabInstance:
     - target: {fileID: 2068213577375637061, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1321127195952521255, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
+      objectReference: {fileID: -9028847697882633080, guid: 8bcaa63e70b0e2a4e93e356e2368a30a, type: 3}
+    - target: {fileID: 2068213577375637061, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6240969972956929298, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -1321127195952521255, guid: 7df72c5a13df40744805f642f06f17b0, type: 3}
+      objectReference: {fileID: -9028847697882633080, guid: 8bcaa63e70b0e2a4e93e356e2368a30a, type: 3}
     - target: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_Name
-      value: Marij- Variant
+      value: Saltveil
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
---- !u!1 &6529110803229401256 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
-  m_PrefabInstance: {fileID: 208883434981106418}
-  m_PrefabAsset: {fileID: 0}
