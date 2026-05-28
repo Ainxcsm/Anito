@@ -1,6 +1,8 @@
-Added coin animation
+Add passive item effect system
 
-- Added looping idle animation for coin pickup
-- Added/updated coin Animator Controller
-- Applied coin animation setup to coin prefab
-- Revamped the looks of the coin
+- Added editable passive item effects through the Inspector
+- Removed range damage effect from item effects
+- Added heal over time, damage over time, lifesteal, cooldown reduction, crit chance, crit damage, attack speed, armor reduction, and evasion effects
+- Updated player stats to recalculate based on inventory items and item quantity
+- Updated weapon attacks to apply crits, lifesteal, DOT, and armor reduction
+- Updated enemies to support armor, DOT, and temporary armor reduction

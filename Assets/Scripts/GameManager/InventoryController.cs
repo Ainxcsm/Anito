@@ -8,13 +8,18 @@ public class InventoryController : MonoBehaviour
     public int slotCount;
 
     private readonly HashSet<int> processedPickupObjects = new HashSet<int>();
+    private StatPlayer playerStats;
 
     void Start()
     {
+        playerStats = FindAnyObjectByType<StatPlayer>();
+
         for (int i = 0; i < slotCount; i++)
         {
             Instantiate(slotPrefab, inventoryPanel.transform);
         }
+
+        RecalculatePlayerStats();
     }
 
     public bool AddItem(GameObject item)
@@ -52,6 +57,7 @@ public class InventoryController : MonoBehaviour
                 if (slotItem != null && slotItem.CanStackWith(itemToAdd))
                 {
                     slotItem.AddToStack(1);
+                    RecalculatePlayerStats();
                     return true;
                 }
             }
@@ -85,10 +91,13 @@ public class InventoryController : MonoBehaviour
                     newItemComponent.icon = itemToAdd.icon;
                     newItemComponent.uiPrefab = itemToAdd.uiPrefab;
                     newItemComponent.quantity = 1;
+                    newItemComponent.hasPassiveEffect = itemToAdd.hasPassiveEffect;
+                    newItemComponent.effects = itemToAdd.effects;
                     newItemComponent.UpdateQuantityDisplay();
                 }
 
                 slot.currentItem = newItem;
+                RecalculatePlayerStats();
                 return true;
             }
         }
@@ -96,5 +105,40 @@ public class InventoryController : MonoBehaviour
         processedPickupObjects.Remove(pickupObjectID);
         Debug.Log("Inventory is full");
         return false;
+    }
+
+    public List<Item> GetInventoryItems()
+    {
+        List<Item> items = new List<Item>();
+
+        foreach (Transform slotTransform in inventoryPanel.transform)
+        {
+            Slot slot = slotTransform.GetComponent<Slot>();
+
+            if (slot != null && slot.currentItem != null)
+            {
+                Item item = slot.currentItem.GetComponent<Item>();
+
+                if (item != null)
+                {
+                    items.Add(item);
+                }
+            }
+        }
+
+        return items;
+    }
+
+    public void RecalculatePlayerStats()
+    {
+        if (playerStats == null)
+        {
+            playerStats = FindAnyObjectByType<StatPlayer>();
+        }
+
+        if (playerStats != null)
+        {
+            playerStats.RecalculateStatsFromInventory(this);
+        }
     }
 }
