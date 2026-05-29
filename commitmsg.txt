@@ -1,10 +1,6 @@
-Add player skill animation and stun effect
+Revamping Player Animation (WIP)
 
-- Added player Skill1 casting animation setup
-- Added separate skill effect animation and controller
-- Added skill effect trigger timing with backup delay
-- Added Skill layer hitbox for skill collision detection
-- Added enemy stun effect from skill hitbox
-- Updated EnemyAI to support stun behavior
-- Simplified EnemyAI by removing patrol and return behavior
-- Added manual left/right skill effect positioning and scale
+- Adding Death Animation
+- Adding Melee Combo 1, 2, and 3
+- Revamp Animator Controls (More Easy to Read)
+- Might fix the Gun Hitbox 
