@@ -94,6 +94,9 @@ MonoBehaviour:
   weaponType: 0
   damage: 10
   weaponCollider: {fileID: 4613447322664090531}
+  damageLayers:
+    serializedVersion: 2
+    m_Bits: 4352
   isActiveWeapon: 0
 --- !u!1 &731942578179633599
 GameObject:
@@ -189,6 +192,9 @@ MonoBehaviour:
   weaponType: 0
   damage: 10
   weaponCollider: {fileID: 3772349553965961759}
+  damageLayers:
+    serializedVersion: 2
+    m_Bits: 0
   isActiveWeapon: 0
 --- !u!1 &4461103662883221902
 GameObject:
@@ -980,10 +986,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   animator: {fileID: 0}
   playerMovement: {fileID: 0}
-  swordAttack: {fileID: 0}
+  swordAttack: {fileID: 7397552164639243333}
   melee1Trigger: Melee1
   melee2Trigger: Melee2
   melee3Trigger: Melee3
-  slashDuration: 0.4
+  melee1Duration: 0.45
+  melee2Duration: 0.45
+  melee3Duration: 0.5
+  melee1HitboxDelay: 0.12
+  melee2HitboxDelay: 0.08
+  melee3HitboxDelay: 0.08
+  melee1HitboxActiveTime: 0.3
+  melee2HitboxActiveTime: 0.3
+  melee3HitboxActiveTime: 0.35
   comboInputWindow: 0.3
   comboEndDelay: 0.1
