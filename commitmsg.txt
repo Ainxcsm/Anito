@@ -1,6 +1,7 @@
-Revamping Player Animation (WIP)
+Optimized Player Animation
 
-- Adding Death Animation
-- Adding Melee Combo 1, 2, and 3
-- Revamp Animator Controls (More Easy to Read)
-- Might fix the Gun Hitbox 
+- Adding Death Animation (WIP)
+- Added Melee Combo 1, 2, and 3
+- Optimized Player Idle Animation
+- Optimized Player Melee Animation
+- Optimized Player Gun Animation 

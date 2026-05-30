@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ public class Running : MonoBehaviour
     public WeaponAttack swordAttack;
     public WeaponAttack gunAttack;
     public InteractionDetector interactionDetector;
+    public PlayerMeleeCombo meleeCombo;
 
     private bool canMove = true;
     private bool dialogueLocked = false;
@@ -43,13 +45,20 @@ public class Running : MonoBehaviour
         {
             statPlayer = GetComponent<StatPlayer>();
         }
+        if (meleeCombo == null)
+        {
+            meleeCombo = GetComponent<PlayerMeleeCombo>();
+        }
     }
 
     void Update()
     {
         UpdateDamageLock();
         UpdateMovementLock();
-
+        if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
+        {
+            AttackGun();
+        }
         if (damageLocked || dialogueLocked || uiLocked)
         {
             CancelDash();
@@ -255,8 +264,11 @@ public class Running : MonoBehaviour
     public void AttackGun()
     {
         UpdateDamageLock();
-
-        if (dialogueLocked || damageLocked || uiLocked || isDashing || actionLocked)
+        if (meleeCombo != null && meleeCombo.IsAttacking())
+        {
+            meleeCombo.CancelCombo();
+        }
+        if (dialogueLocked || damageLocked || uiLocked || isDashing)
         {
             return;
         }

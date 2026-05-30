@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
-using UnityEditor.Animations;
-using UnityEngine.Rendering;
 public class PlayerMeleeCombo : MonoBehaviour
 {
     public Animator animator;
@@ -89,7 +87,7 @@ public class PlayerMeleeCombo : MonoBehaviour
                 yield return new WaitForSeconds(remainingTime);
             }
 
-            StopWeaponHitBox();
+            StopWeaponHitbox();
 
             if(queuedNext && currentCombo < 3)
             {
@@ -135,7 +133,7 @@ public class PlayerMeleeCombo : MonoBehaviour
         swordAttack.Attack();
     }
 
-    private void StopWeaponHitBox()
+    private void StopWeaponHitbox()
     {
         if(swordAttack == null)
         {
@@ -147,7 +145,7 @@ public class PlayerMeleeCombo : MonoBehaviour
 
     private void ResetCombo()
     {
-        StopWeaponHitBox();
+        StopWeaponHitbox();
 
         currentCombo = 0;
         queuedNext = false;
@@ -159,5 +157,16 @@ public class PlayerMeleeCombo : MonoBehaviour
         }
 
         Debug.Log("Melee Combo Eneded");
+    }
+    public void CancelCombo()
+    {
+        StopAllCoroutines();
+        ResetCombo();
+
+        Debug.Log("Melee Combo Cancelled");
+    }
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 }
