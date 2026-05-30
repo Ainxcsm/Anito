@@ -31,6 +31,7 @@ public class Running : MonoBehaviour
     private Vector2 dashDirection;
 
     private float damageLockEndTime = 0f;
+    private Coroutine actionUnlockRoutine;
 
     void Start()
     {
@@ -234,13 +235,16 @@ public class Running : MonoBehaviour
     {
         UpdateDamageLock();
 
-        if (dialogueLocked || damageLocked || uiLocked || isDashing)
+        if (dialogueLocked || damageLocked || uiLocked || isDashing || actionLocked)
         {
             return;
         }
 
         LockMovement();
-
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
         if (swordAttack != null)
         {
             swordAttack.isActiveWeapon = true;
@@ -252,13 +256,16 @@ public class Running : MonoBehaviour
     {
         UpdateDamageLock();
 
-        if (dialogueLocked || damageLocked || uiLocked || isDashing)
+        if (dialogueLocked || damageLocked || uiLocked || isDashing || actionLocked)
         {
             return;
         }
 
         LockMovement();
-
+        if (animator != null)
+        {
+            animator.SetTrigger("AttackR");
+        }
         if (gunAttack != null)
         {
             gunAttack.isActiveWeapon = true;
@@ -279,6 +286,11 @@ public class Running : MonoBehaviour
             gunAttack.StopAttack();
             gunAttack.isActiveWeapon = false;
         }
+        if (actionUnlockRoutine != null )
+        {
+            StopCoroutine(actionUnlockRoutine);
+            actionUnlockRoutine = null;
+        }
 
         if (!damageLocked && !dialogueLocked && !uiLocked)
         {
@@ -290,6 +302,21 @@ public class Running : MonoBehaviour
             UpdateMovementLock();
         }
     }
+    private System.Collections.IEnumerator UnlockActionAfterDelay (float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if(!damageLocked && !dialogueLocked && !uiLocked)
+        {
+            UnlockMovement();
+        } else
+        {
+            actionLocked = false;
+            UpdateMovementLock();
+        }
+
+        actionUnlockRoutine = null;
+    }
 
     public void LockMovement()
     {
@@ -300,6 +327,13 @@ public class Running : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+
+        if (actionUnlockRoutine != null)
+        {
+            StopCoroutine(actionUnlockRoutine);
+        }
+
+        actionUnlockRoutine = StartCoroutine(UnlockActionAfterDelay(0.45f));
     }
 
     public void UnlockMovement()
