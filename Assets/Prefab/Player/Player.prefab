@@ -162,7 +162,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.20521879, y: 0.0015580952}
+  m_Offset: {x: -0.0051279664, y: 0.0015580952}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -172,7 +172,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4104376, y: 0.030873165}
+  m_Size: {x: 0.98974407, y: 0.030873165}
   m_EdgeRadius: 0
 --- !u!114 &8107779165340832710
 MonoBehaviour:
@@ -661,6 +661,7 @@ GameObject:
   - component: {fileID: 8197424979878068415}
   - component: {fileID: 4969681069322794208}
   - component: {fileID: 14119879676632275}
+  - component: {fileID: 6868643744585989642}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -870,6 +871,7 @@ MonoBehaviour:
   swordAttack: {fileID: 7397552164639243333}
   gunAttack: {fileID: 8107779165340832710}
   interactionDetector: {fileID: 8066475446106588714}
+  meleeCombo: {fileID: 0}
   dashForce: 2.5
   dashDuration: 0.35
   dashCooldown: 1
@@ -964,3 +966,24 @@ MonoBehaviour:
   backupEffectDelay: 0.75
   skillTriggerName: Skill1
   skillStateName: Skill1-Anim
+--- !u!114 &6868643744585989642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8801711843072389920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a42dcefcc864104a99e2188de01246b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  animator: {fileID: 0}
+  playerMovement: {fileID: 0}
+  swordAttack: {fileID: 0}
+  melee1Trigger: Melee1
+  melee2Trigger: Melee2
+  melee3Trigger: Melee3
+  slashDuration: 0.4
+  comboInputWindow: 0.3
+  comboEndDelay: 0.1
