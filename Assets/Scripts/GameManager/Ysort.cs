@@ -1,42 +1,56 @@
 using UnityEngine;
 
+[ExecuteAlways]
 public class YSort : MonoBehaviour
 {
-    public Transform sortPoint;
+    public SpriteRenderer spriteRenderer;
+
+    [Header("Breakable Only Sorting")]
+    public float yOffset = -0.15f;
     public int sortingOffset = 0;
-    public bool updateEveryFrame = false;
+    public int precision = 100;
 
-    private SpriteRenderer[] spriteRenderers;
+    private Breakable breakable;
 
-    void Awake()
+    private void Awake()
     {
-        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        breakable = GetComponent<Breakable>();
+
+        ApplySorting();
     }
 
-    void Start()
+    private void LateUpdate()
     {
-        UpdateSortingOrder();
+        ApplySorting();
     }
 
-    void LateUpdate()
+    private void OnValidate()
     {
-        if (updateEveryFrame)
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        breakable = GetComponent<Breakable>();
+
+        ApplySorting();
+    }
+
+    private void ApplySorting()
+    {
+        if (breakable == null)
         {
-            UpdateSortingOrder();
+            return;
         }
-    }
 
-    public void UpdateSortingOrder()
-    {
-        Vector3 positionToSort = sortPoint != null ? sortPoint.position : transform.position;
-        int order = Mathf.RoundToInt(-positionToSort.y * 100) + sortingOffset;
-
-        foreach (SpriteRenderer sr in spriteRenderers)
+        if (spriteRenderer == null)
         {
-            if (sr != null)
-            {
-                sr.sortingOrder = order;
-            }
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
+
+        if (spriteRenderer == null)
+        {
+            return;
+        }
+
+        float sortY = transform.position.y + yOffset;
+        spriteRenderer.sortingOrder = Mathf.RoundToInt(-sortY * precision) + sortingOffset;
     }
 }

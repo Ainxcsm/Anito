@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -6,11 +7,13 @@ public class Enemy : MonoBehaviour
     public float maxHealth = 5f;
     public float speed = 4f;
     public float damage = 5f;
+    public float armor = 0f;
     public float attackRange = 1f;
     public float detectionRange = 5f;
     public float attackCd = 0.5f;
 
     [HideInInspector] public float currentHealth;
+    [HideInInspector] public float currentArmor;
 
     private bool isDead;
 
@@ -31,9 +34,17 @@ public class Enemy : MonoBehaviour
     public int maxCoins = 5;
     public float coinDropSpread = 0.3f;
 
+    [Header("Damage Text")]
+    public bool showDamageText = true;
+
+    private Coroutine dotCoroutine;
+    private Coroutine armorReductionCoroutine;
+
     void Awake()
     {
         currentHealth = maxHealth;
+        currentArmor = armor;
+
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         enemyAudio = GetComponent<EnemyAudio>();
@@ -44,14 +55,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float amount)
+    public float TakeDamage(float amount)
     {
         if (isDead)
         {
-            return;
+            return 0f;
         }
 
-        currentHealth -= amount;
+        float finalDamage = Mathf.Max(amount - currentArmor, 1f);
+
+        currentHealth -= finalDamage;
+
+        if (showDamageText)
+        {
+            if (DamageTextSpawner.Instance != null)
+            {
+                DamageTextSpawner.Instance.SpawnDamageText(finalDamage, transform.position);
+            }
+            else
+            {
+                Debug.LogError("DamageTextSpawner.Instance is null.");
+            }
+        }
 
         if (enemyAudio != null)
         {
@@ -62,12 +87,76 @@ public class Enemy : MonoBehaviour
             SFXManager.Instance.PlayEnemyHit();
         }
 
-        Debug.Log("Enemy hit: " + amount + " | HP: " + currentHealth);
+        Debug.Log("Enemy hit: " + finalDamage + " | HP: " + currentHealth + " | Armor: " + currentArmor);
 
         if (currentHealth <= 0f)
         {
             Die();
         }
+
+        return finalDamage;
+    }
+
+    public void ApplyDamageOverTime(float damagePerSecond, float duration)
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        if (dotCoroutine != null)
+        {
+            StopCoroutine(dotCoroutine);
+        }
+
+        dotCoroutine = StartCoroutine(DamageOverTimeRoutine(damagePerSecond, duration));
+    }
+
+    private IEnumerator DamageOverTimeRoutine(float damagePerSecond, float duration)
+    {
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            if (isDead)
+            {
+                yield break;
+            }
+
+            float damageThisFrame = damagePerSecond * Time.deltaTime;
+            TakeDamage(damageThisFrame);
+
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        dotCoroutine = null;
+    }
+
+    public void ApplyArmorReduction(float amount, float duration)
+    {
+        if (isDead)
+        {
+            return;
+        }
+
+        if (armorReductionCoroutine != null)
+        {
+            StopCoroutine(armorReductionCoroutine);
+        }
+
+        armorReductionCoroutine = StartCoroutine(ArmorReductionRoutine(amount, duration));
+    }
+
+    private IEnumerator ArmorReductionRoutine(float amount, float duration)
+    {
+        currentArmor = Mathf.Max(armor - amount, 0f);
+
+        yield return new WaitForSeconds(duration);
+
+        currentArmor = armor;
+        armorReductionCoroutine = null;
     }
 
     void Die()

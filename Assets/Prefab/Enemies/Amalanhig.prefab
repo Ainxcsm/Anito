@@ -156,9 +156,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: -929805401
+  m_SortingLayer: 3
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: -2687055598854027654, guid: 4bdb343c300ff0e4e875a550ba8ecec2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -204,13 +204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af564e097d0fc684784c527c6a529655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  maxHealth: 5
+  maxHealth: 50
   speed: 0.5
   damage: 2
+  armor: 0
   attackRange: 0.225
   detectionRange: 10
   attackCd: 1
   currentHealth: 0
+  currentArmor: 0
   animator: {fileID: 5953051191553997888}
   lootTable:
   - itemPrefab: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
@@ -226,6 +228,7 @@ MonoBehaviour:
   minCoins: 1
   maxCoins: 5
   coinDropSpread: 0.3
+  showDamageText: 1
 --- !u!114 &2566162163924344032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,11 +243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   enemy: {fileID: 3727351985860908857}
   stopDist: 0.225
-  lostTargetRange: 7
-  patrolRadius: 2
-  patrolWaitTime: 1.5
-  returnToSpawnWhenLost: 1
+  alwaysChasePlayer: 1
   attackAnimationLockDuration: 1
+  showStunDebug: 1
 --- !u!114 &2633094661002454060
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,7 +1,5 @@
-Optimized Player Animation
+Added Dmg per Slash Combo
 
-- Adding Death Animation (WIP)
-- Added Melee Combo 1, 2, and 3
-- Optimized Player Idle Animation
-- Optimized Player Melee Animation
-- Optimized Player Gun Animation 
+- Fixed Melee hitbox problems
+- Added Walls w/o collisions on Tutorial
+- Added DamageTxt Popups (You can see you dmg to the enemies)

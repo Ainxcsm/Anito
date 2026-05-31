@@ -148850,7 +148850,7 @@ GameObject:
   - component: {fileID: 231342411}
   - component: {fileID: 231342410}
   - component: {fileID: 231342412}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: 'buildings with collision '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149932,7 +149932,7 @@ GameObject:
   - component: {fileID: 505201292}
   - component: {fileID: 505201291}
   - component: {fileID: 505201290}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: tree trunks with collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151872,7 +151872,7 @@ GameObject:
   - component: {fileID: 679105667}
   - component: {fileID: 679105666}
   - component: {fileID: 679105668}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: wallswithcolliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195164,7 +195164,7 @@ GameObject:
   - component: {fileID: 699382866}
   - component: {fileID: 699382865}
   - component: {fileID: 699382867}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: fences
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205155,7 +205155,7 @@ GameObject:
   - component: {fileID: 1431892204}
   - component: {fileID: 1431892203}
   - component: {fileID: 1431892202}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: water edge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
