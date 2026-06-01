@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class StatPlayer : MonoBehaviour
@@ -33,6 +34,10 @@ public class StatPlayer : MonoBehaviour
     [Header("Damage Stun")]
     public float damageStunDuration = 0.7f;
 
+    [Header("Death")]
+    public float deathAnimationDelay = 1.5f;
+    public string deathAnimationStateName = "";
+
     [HideInInspector] public float currentHealth;
     public bool isDead = false;
 
@@ -40,6 +45,8 @@ public class StatPlayer : MonoBehaviour
     public GameOver gameOverManager;
 
     private Running playerMovement;
+    private Coroutine deathRoutine;
+    private bool gameOverStarted = false;
 
     void Awake()
     {
@@ -311,11 +318,9 @@ public class StatPlayer : MonoBehaviour
         }
 
         isDead = true;
+        Time.timeScale = 1f;
 
-        if (anim != null)
-        {
-            anim.SetTrigger("isDead");
-        }
+        PlayDeathAnimation();
 
         Running running = GetComponent<Running>();
 
@@ -344,6 +349,56 @@ public class StatPlayer : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
         }
+
+        if (deathRoutine != null)
+        {
+            StopCoroutine(deathRoutine);
+        }
+
+        deathRoutine = StartCoroutine(ShowGameOverAfterDeathAnimation());
+    }
+
+    private void PlayDeathAnimation()
+    {
+        if (anim == null)
+        {
+            Debug.LogError("Player Animator is missing.");
+            return;
+        }
+
+        anim.SetBool("isMoving", false);
+
+        if (!string.IsNullOrEmpty(deathAnimationStateName))
+        {
+            anim.Play(deathAnimationStateName, 0, 0f);
+        }
+        else
+        {
+            anim.SetTrigger("isDead");
+        }
+
+        anim.Update(0f);
+    }
+
+    private IEnumerator ShowGameOverAfterDeathAnimation()
+    {
+        yield return new WaitForSecondsRealtime(deathAnimationDelay);
+        ShowGameOverNow();
+    }
+
+    public void FinishDeathAnimation()
+    {
+        ShowGameOverNow();
+    }
+
+    private void ShowGameOverNow()
+    {
+        if (gameOverStarted)
+        {
+            return;
+        }
+
+        gameOverStarted = true;
 
         if (gameOverManager != null)
         {

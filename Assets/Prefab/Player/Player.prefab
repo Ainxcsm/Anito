@@ -194,7 +194,7 @@ MonoBehaviour:
   weaponCollider: {fileID: 3772349553965961759}
   damageLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 5120
   isActiveWeapon: 0
 --- !u!1 &4461103662883221902
 GameObject:
@@ -666,7 +666,6 @@ GameObject:
   - component: {fileID: 3429671479618918103}
   - component: {fileID: 8197424979878068415}
   - component: {fileID: 4969681069322794208}
-  - component: {fileID: 14119879676632275}
   - component: {fileID: 6868643744585989642}
   m_Layer: 7
   m_Name: Player
@@ -742,7 +741,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -929805401
   m_SortingLayer: 3
-  m_SortingOrder: 5
+  m_SortingOrder: 10
   m_MaskInteraction: 0
   m_Sprite: {fileID: 4402630801860163086, guid: dcd9cbf0449ea564e99b9e0555c639e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -753,7 +752,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!50 &805649826522663724
 Rigidbody2D:
   serializedVersion: 5
@@ -893,7 +892,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9cf4c3e65ea69943830ace011a26f6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatPlayer
-  health: 50
+  health: 10
   speed: 1.5
   meleeDamage: 10
   defense: 5
@@ -916,6 +915,8 @@ MonoBehaviour:
   currentEnemyArmorReductionDuration: 0
   currentEvasion: 0
   damageStunDuration: 0.3
+  deathAnimationDelay: 2
+  deathAnimationStateName: Death-Anim
   currentHealth: 0
   isDead: 0
   anim: {fileID: 276466670808288841}
@@ -952,26 +953,6 @@ MonoBehaviour:
   backupEffectDelay: 0.75
   skillTriggerName: Skill1
   skillStateName: Skill1-Anim
---- !u!114 &14119879676632275
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8801711843072389920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdea804b6b412d14db60c996704cbbfa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: '::'
-  playerAnimator: {fileID: 276466670808288841}
-  skillEffect: {fileID: 0}
-  skillCooldown: 5
-  skillCastDuration: 0.6
-  useBackupEffectDelay: 1
-  backupEffectDelay: 0.75
-  skillTriggerName: Skill1
-  skillStateName: Skill1-Anim
 --- !u!114 &6868643744585989642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,6 +971,9 @@ MonoBehaviour:
   melee1Trigger: Melee1
   melee2Trigger: Melee2
   melee3Trigger: Melee3
+  melee1Damage: 5
+  melee2Damage: 5
+  melee3Damage: 5
   melee1Duration: 0.45
   melee2Duration: 0.45
   melee3Duration: 0.5

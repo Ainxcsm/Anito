@@ -47,7 +47,7 @@ public class MapTransition : MonoBehaviour
                 newPos.y += .6f;
                 break;
             case Direction.Down:
-                newPos.y -= .6f;
+                newPos.y -= .4f;
                 break;
             case Direction.Left:
                 newPos.x -= .6f;
