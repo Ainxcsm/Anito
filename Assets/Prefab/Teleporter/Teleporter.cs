@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Cinemachine;
 
 public enum TeleportMode
 {
@@ -27,6 +28,9 @@ public class Teleporter : MonoBehaviour, IInteractable
     [Header("Positions")]
     public Transform centerPoint;
     public Transform spawnPoint;
+
+    [Header("Camera Boundary")]
+    public Collider2D cameraBoundary;
 
     [Header("Animation")]
     public Animator teleporterAnimator;
@@ -64,7 +68,7 @@ public class Teleporter : MonoBehaviour, IInteractable
 
         if (screenFader == null)
         {
-            screenFader = FindObjectOfType<ScreenFader>();
+            screenFader = FindAnyObjectByType<ScreenFader>();
         }
     }
 
@@ -145,6 +149,7 @@ public class Teleporter : MonoBehaviour, IInteractable
 
         if (teleporterAnimator != null && !string.IsNullOrEmpty(teleportTriggerName))
         {
+            teleporterAnimator.ResetTrigger(teleportTriggerName);
             teleporterAnimator.SetTrigger(teleportTriggerName);
         }
 
@@ -157,7 +162,7 @@ public class Teleporter : MonoBehaviour, IInteractable
 
         if (teleportMode == TeleportMode.SameScene)
         {
-            TeleportSameScene(player);
+            yield return StartCoroutine(TeleportSameScene(player));
         }
         else
         {
@@ -165,7 +170,7 @@ public class Teleporter : MonoBehaviour, IInteractable
         }
     }
 
-    private void TeleportSameScene(GameObject player)
+    private IEnumerator TeleportSameScene(GameObject player)
     {
         Teleporter destination = GetDestinationTeleporter();
 
@@ -174,10 +179,14 @@ public class Teleporter : MonoBehaviour, IInteractable
             Debug.LogError("Destination teleporter not found: " + destinationTeleporterId);
             LockPlayer(player, false);
             isTeleporting = false;
-            return;
+            yield break;
         }
 
         player.transform.position = destination.spawnPoint.position;
+
+        yield return null;
+
+        destination.UpdateCameraBoundary();
 
         LockPlayer(player, false);
 
@@ -211,7 +220,6 @@ public class Teleporter : MonoBehaviour, IInteractable
         persistentPlayer = player;
 
         DontDestroyOnLoad(player);
-
         SceneManager.LoadScene(targetSceneName);
     }
 
@@ -228,7 +236,7 @@ public class Teleporter : MonoBehaviour, IInteractable
 
         if (player == null)
         {
-            Running running = FindObjectOfType<Running>();
+            Running running = FindAnyObjectByType<Running>();
 
             if (running != null)
             {
@@ -244,11 +252,15 @@ public class Teleporter : MonoBehaviour, IInteractable
 
         player.transform.position = spawnPoint.position;
 
+        yield return null;
+
+        UpdateCameraBoundary();
+
         LockPlayer(player, false);
 
         if (screenFader == null)
         {
-            screenFader = FindObjectOfType<ScreenFader>();
+            screenFader = FindAnyObjectByType<ScreenFader>();
         }
 
         if (useFade && screenFader != null)
@@ -275,6 +287,28 @@ public class Teleporter : MonoBehaviour, IInteractable
         }
 
         return null;
+    }
+
+    private void UpdateCameraBoundary()
+    {
+        if (cameraBoundary == null)
+        {
+            Debug.LogWarning("Camera Boundary is not assigned on teleporter: " + teleporterId);
+            return;
+        }
+
+        CinemachineConfiner2D confiner2D = FindAnyObjectByType<CinemachineConfiner2D>();
+
+        if (confiner2D == null)
+        {
+            Debug.LogWarning("No CinemachineConfiner2D found in the scene.");
+            return;
+        }
+
+        confiner2D.BoundingShape2D = cameraBoundary;
+        confiner2D.InvalidateCache();
+
+        Debug.Log("Camera boundary changed to: " + cameraBoundary.name);
     }
 
     private void LockPlayer(GameObject player, bool locked)

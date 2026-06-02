@@ -9,7 +9,7 @@ public class MapTransition : MonoBehaviour
 
     CinemachineConfiner2D confiner2D;
 
-    enum Direction { Up, Down, Left, Right }
+    enum Direction { Up, Down, Left, Right, Upright, Upleft, Downleft, Downright }
 
     private void Awake()
     {
@@ -44,16 +44,32 @@ public class MapTransition : MonoBehaviour
         switch (direction)
         {
             case Direction.Up:
-                newPos.y += .6f;
+                newPos.y += .4f;
+                break;
+            case Direction.Upright:
+                newPos.y += .4f;
+                newPos.x += .4f;
+                break;
+            case Direction.Upleft:
+                newPos.y += .4f;
+                newPos.x -= .4f;
                 break;
             case Direction.Down:
                 newPos.y -= .4f;
                 break;
+            case Direction.Downright:
+                newPos.x += 0.4f;
+                newPos.y -= .4f;
+                break;
+            case Direction.Downleft:
+                newPos.y -= 0.4f;
+                newPos.x -= 0.4f;
+                break;
             case Direction.Left:
-                newPos.x -= .6f;
+                newPos.x -= .4f;
                 break;
             case Direction.Right:
-                newPos.x += .6f;
+                newPos.x += .4f;
                 break;
         }
 
