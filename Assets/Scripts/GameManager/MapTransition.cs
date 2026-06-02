@@ -44,32 +44,32 @@ public class MapTransition : MonoBehaviour
         switch (direction)
         {
             case Direction.Up:
-                newPos.y += .4f;
+                newPos.y += .45f;
                 break;
             case Direction.Upright:
-                newPos.y += .4f;
-                newPos.x += .4f;
+                newPos.y += .45f;
+                newPos.x += .45f;
                 break;
             case Direction.Upleft:
-                newPos.y += .4f;
-                newPos.x -= .4f;
+                newPos.y += .45f;
+                newPos.x -= .45f;
                 break;
             case Direction.Down:
-                newPos.y -= .4f;
+                newPos.y -= .45f;
                 break;
             case Direction.Downright:
-                newPos.x += 0.4f;
-                newPos.y -= .4f;
+                newPos.x += 0.45f;
+                newPos.y -= .45f;
                 break;
             case Direction.Downleft:
-                newPos.y -= 0.4f;
-                newPos.x -= 0.4f;
+                newPos.y -= 0.45f;
+                newPos.x -= 0.45f;
                 break;
             case Direction.Left:
-                newPos.x -= .4f;
+                newPos.x -= .45f;
                 break;
             case Direction.Right:
-                newPos.x += .4f;
+                newPos.x += .45f;
                 break;
         }
 

@@ -214,6 +214,9 @@ MonoBehaviour:
   currentHealth: 0
   currentArmor: 0
   animator: {fileID: 5953051191553997888}
+  useDeathAnimation: 1
+  deathTriggerName: Die
+  destroyDelayWithoutDeathAnimation: 0
   lootTable:
   - itemPrefab: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
     chance: 25
@@ -244,6 +247,19 @@ MonoBehaviour:
   enemy: {fileID: 3727351985860908857}
   stopDist: 0.225
   alwaysChasePlayer: 1
+  autoFindObstacleLayer: 1
+  obstacleLayerName: Collision
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleCheckDistance: 0.65
+  obstacleCheckRadius: 0.18
+  sideCheckAngle: 55
+  sideCheckDistance: 0.85
+  stuckCheckDistance: 0.01
+  stuckTimeBeforeSwitch: 0.35
+  sideSwitchCooldown: 0.45
+  showObstacleDebug: 1
   attackAnimationLockDuration: 1
   showStunDebug: 1
 --- !u!114 &2633094661002454060
@@ -258,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff7679d68f1dbe4586638120dea5500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAudio
-  attackSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 5d7e96c94c90a704196a68f11cb0bca2, type: 3}
   hitSound: {fileID: 0}
   deathSound: {fileID: 0}
   alertSound: {fileID: 0}

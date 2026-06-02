@@ -235,6 +235,19 @@ MonoBehaviour:
   enemy: {fileID: 5627704574238449411}
   stopDist: 0.225
   alwaysChasePlayer: 1
+  autoFindObstacleLayer: 0
+  obstacleLayerName: 
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  obstacleCheckDistance: 0.65
+  obstacleCheckRadius: 0.18
+  sideCheckAngle: 55
+  sideCheckDistance: 0.85
+  stuckCheckDistance: 0.01
+  stuckTimeBeforeSwitch: 0.35
+  sideSwitchCooldown: 0.45
+  showObstacleDebug: 1
   attackAnimationLockDuration: 1
   showStunDebug: 1
 --- !u!114 &4075178263951301946

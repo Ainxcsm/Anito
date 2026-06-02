@@ -21,6 +21,19 @@ public class EnemyAI : MonoBehaviour
     public float stopDist = 0.35f;
     public bool alwaysChasePlayer = true;
 
+    [Header("Obstacle Avoidance")]
+    public bool autoFindObstacleLayer = true;
+    public string obstacleLayerName = "Wall";
+    public LayerMask obstacleLayer;
+    public float obstacleCheckDistance = 0.65f;
+    public float obstacleCheckRadius = 0.18f;
+    public float sideCheckAngle = 55f;
+    public float sideCheckDistance = 0.85f;
+    public float stuckCheckDistance = 0.01f;
+    public float stuckTimeBeforeSwitch = 0.35f;
+    public float sideSwitchCooldown = 0.45f;
+    public bool showObstacleDebug = true;
+
     [Header("Attack")]
     public float attackAnimationLockDuration = 0.45f;
 
@@ -35,6 +48,11 @@ public class EnemyAI : MonoBehaviour
     private bool isStunned = false;
     private float stunEndTime = 0f;
 
+    private int preferredAvoidanceSide = 1;
+    private float sideSwitchTimer = 0f;
+    private float stuckTimer = 0f;
+    private Vector2 lastPosition;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,6 +64,8 @@ public class EnemyAI : MonoBehaviour
         {
             enemy = GetComponent<Enemy>();
         }
+
+        AutoSetupObstacleLayer();
     }
 
     void Start()
@@ -56,6 +76,11 @@ public class EnemyAI : MonoBehaviour
         {
             rb.freezeRotation = true;
             rb.gravityScale = 0;
+            lastPosition = rb.position;
+        }
+        else
+        {
+            lastPosition = transform.position;
         }
     }
 
@@ -69,6 +94,11 @@ public class EnemyAI : MonoBehaviour
         if (target == null)
         {
             FindPlayer();
+        }
+
+        if (autoFindObstacleLayer && obstacleLayer.value == 0)
+        {
+            AutoSetupObstacleLayer();
         }
     }
 
@@ -133,6 +163,24 @@ public class EnemyAI : MonoBehaviour
                 TryAttack();
                 break;
         }
+    }
+
+    private void AutoSetupObstacleLayer()
+    {
+        if (!autoFindObstacleLayer)
+        {
+            return;
+        }
+
+        int wallLayer = LayerMask.NameToLayer(obstacleLayerName);
+
+        if (wallLayer == -1)
+        {
+            Debug.LogWarning("EnemyAI could not find obstacle layer named: " + obstacleLayerName);
+            return;
+        }
+
+        obstacleLayer = 1 << wallLayer;
     }
 
     private void FindPlayer()
@@ -220,16 +268,144 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        Vector2 direction = (destination - (Vector2)transform.position).normalized;
+        Vector2 desiredDirection = (destination - (Vector2)transform.position).normalized;
 
-        rb.linearVelocity = direction * moveSpeed;
+        if (desiredDirection == Vector2.zero)
+        {
+            StopMoving();
+            return;
+        }
+
+        UpdateStuckCheck();
+
+        Vector2 finalDirection = GetObstacleAvoidanceDirection(desiredDirection);
+
+        rb.linearVelocity = finalDirection * moveSpeed;
 
         if (anim != null)
         {
             anim.SetBool("isWalk", true);
         }
 
-        FlipToward(direction);
+        FlipToward(finalDirection);
+    }
+
+    private void UpdateStuckCheck()
+    {
+        Vector2 currentPosition = rb.position;
+        float movedDistance = Vector2.Distance(currentPosition, lastPosition);
+
+        if (movedDistance <= stuckCheckDistance)
+        {
+            stuckTimer += Time.fixedDeltaTime;
+        }
+        else
+        {
+            stuckTimer = 0f;
+        }
+
+        lastPosition = currentPosition;
+
+        if (stuckTimer >= stuckTimeBeforeSwitch && Time.time >= sideSwitchTimer)
+        {
+            preferredAvoidanceSide *= -1;
+            sideSwitchTimer = Time.time + sideSwitchCooldown;
+            stuckTimer = 0f;
+        }
+    }
+
+    private Vector2 GetObstacleAvoidanceDirection(Vector2 desiredDirection)
+    {
+        if (obstacleLayer.value == 0)
+        {
+            return desiredDirection;
+        }
+
+        Vector2 origin = rb.position;
+        RaycastHit2D forwardHit = Physics2D.CircleCast(origin, obstacleCheckRadius, desiredDirection, obstacleCheckDistance, obstacleLayer);
+
+        if (forwardHit.collider == null)
+        {
+            return desiredDirection;
+        }
+
+        Vector2 leftDirection = RotateDirection(desiredDirection, sideCheckAngle);
+        Vector2 rightDirection = RotateDirection(desiredDirection, -sideCheckAngle);
+
+        float leftScore = GetDirectionScore(origin, leftDirection, desiredDirection);
+        float rightScore = GetDirectionScore(origin, rightDirection, desiredDirection);
+
+        Vector2 chosenDirection;
+
+        if (stuckTimer > 0f)
+        {
+            chosenDirection = preferredAvoidanceSide > 0 ? leftDirection : rightDirection;
+        }
+        else if (leftScore > rightScore)
+        {
+            chosenDirection = leftDirection;
+            preferredAvoidanceSide = 1;
+        }
+        else
+        {
+            chosenDirection = rightDirection;
+            preferredAvoidanceSide = -1;
+        }
+
+        RaycastHit2D chosenHit = Physics2D.CircleCast(origin, obstacleCheckRadius, chosenDirection, sideCheckDistance, obstacleLayer);
+
+        if (chosenHit.collider != null)
+        {
+            Vector2 oppositeDirection = preferredAvoidanceSide > 0 ? rightDirection : leftDirection;
+            RaycastHit2D oppositeHit = Physics2D.CircleCast(origin, obstacleCheckRadius, oppositeDirection, sideCheckDistance, obstacleLayer);
+
+            if (oppositeHit.collider == null)
+            {
+                chosenDirection = oppositeDirection;
+                preferredAvoidanceSide *= -1;
+            }
+            else
+            {
+                Vector2 slideDirection = Vector2.Perpendicular(forwardHit.normal).normalized;
+
+                if (Vector2.Dot(slideDirection, desiredDirection) < 0f)
+                {
+                    slideDirection = -slideDirection;
+                }
+
+                chosenDirection = slideDirection;
+            }
+        }
+
+        return chosenDirection.normalized;
+    }
+
+    private float GetDirectionScore(Vector2 origin, Vector2 checkDirection, Vector2 desiredDirection)
+    {
+        RaycastHit2D hit = Physics2D.CircleCast(origin, obstacleCheckRadius, checkDirection, sideCheckDistance, obstacleLayer);
+
+        float clearDistance = sideCheckDistance;
+
+        if (hit.collider != null)
+        {
+            clearDistance = hit.distance;
+        }
+
+        float targetScore = Vector2.Dot(checkDirection.normalized, desiredDirection.normalized);
+
+        return clearDistance + targetScore;
+    }
+
+    private Vector2 RotateDirection(Vector2 direction, float angle)
+    {
+        float radians = angle * Mathf.Deg2Rad;
+        float cos = Mathf.Cos(radians);
+        float sin = Mathf.Sin(radians);
+
+        return new Vector2(
+            direction.x * cos - direction.y * sin,
+            direction.x * sin + direction.y * cos
+        ).normalized;
     }
 
     private void StopMoving()
@@ -330,6 +506,25 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (obstacleLayer.value == 0)
+        {
+            return;
+        }
+
+        if ((obstacleLayer.value & (1 << collision.gameObject.layer)) == 0)
+        {
+            return;
+        }
+
+        if (Time.time >= sideSwitchTimer)
+        {
+            preferredAvoidanceSide *= -1;
+            sideSwitchTimer = Time.time + sideSwitchCooldown;
+        }
+    }
+
     private void OnDisable()
     {
         CancelInvoke();
@@ -347,5 +542,11 @@ public class EnemyAI : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemy != null ? enemy.attackRange : 1f);
+
+        if (showObstacleDebug)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(transform.position, obstacleCheckDistance);
+        }
     }
 }

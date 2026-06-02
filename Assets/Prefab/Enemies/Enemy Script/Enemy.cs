@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
     private Collider2D col;
     private EnemyAudio enemyAudio;
 
+    [Header("Death")]
+    public bool useDeathAnimation = true;
+    public string deathTriggerName = "Die";
+    public float destroyDelayWithoutDeathAnimation = 0f;
+
     [Header("Loot")]
     public LootEntry[] lootTable;
 
@@ -127,7 +132,6 @@ public class Enemy : MonoBehaviour
             TakeDamage(damageThisFrame);
 
             timer += Time.deltaTime;
-
             yield return null;
         }
 
@@ -200,13 +204,13 @@ public class Enemy : MonoBehaviour
         DropLoot();
         DropCoins();
 
-        if (animator != null)
+        if (animator != null && useDeathAnimation)
         {
-            animator.SetTrigger("Die");
+            animator.SetTrigger(deathTriggerName);
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject, destroyDelayWithoutDeathAnimation);
         }
     }
 
