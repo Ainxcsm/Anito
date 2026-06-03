@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 593b36d880527c046952d4724fe6c133
+guid: 8892b23f28736074dab7e0ed079d5829
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3325031978227350440
-    second: Book Base_0
+      213: -6547089523897556950
+    second: Bestiary Page_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Book Base_0
+      name: Bestiary Page_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 204
-        width: 530
-        height: 308
+        x: 0
+        y: 0
+        width: 528
+        height: 306
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8ab3e09a7f2e42e20800000000000000
-      internalID: 3325031978227350440
+      spriteID: a20a76714c01425a0800000000000000
+      internalID: -6547089523897556950
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Book Base_0: 3325031978227350440
+      Bestiary Page_0: -6547089523897556950
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -153,13 +153,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   lootTable:
-  - itemPrefab: {fileID: 6375432198348358234, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+  - itemPrefab: {fileID: 3948577071163708299, guid: cb61b0661303d4d4da2328352098adae, type: 3}
     chance: 50
   - itemPrefab: {fileID: 6529110803229401256, guid: f9a5692b4e93bba4b97bf4d71c909afa, type: 3}
     chance: 50
-  - itemPrefab: {fileID: 3860911390168901455, guid: 354867141b6a661408e09e325f5b88e2, type: 3}
+  - itemPrefab: {fileID: 126817648294591944, guid: e44ac5ef56ffc9c498765ddf1ccccccc, type: 3}
     chance: 30
-  - itemPrefab: {fileID: 1128896646273164015, guid: cbd58dd510d7393429debbce6cdf84f6, type: 3}
+  - itemPrefab: {fileID: 7643722807230604977, guid: bdf31dc1620f3b946b981a6d6a1d77da, type: 3}
     chance: 15
   - itemPrefab: {fileID: 7114614088450402545, guid: 7462d09b4bb6e9f4dbdeab29390d3631, type: 3}
     chance: 5

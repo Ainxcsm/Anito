@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   animator: {fileID: 0}
-  playerMovement: {fileID: 0}
+  playerMovement: {fileID: 3781779754120646112}
   swordAttack: {fileID: 7397552164639243333}
   melee1Trigger: Melee1
   melee2Trigger: Melee2

@@ -20,6 +20,26 @@ PrefabInstance:
       propertyPath: itemKey
       value: "gentleman\u2019s_sting"
       objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: hasPassiveEffect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: effects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: effects.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: effects.Array.data[0].effectType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -1515176823210228703, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
+      propertyPath: effects.Array.data[0].scaleWithQuantity
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 273757276081868107, guid: bf0be4b1cb350d544acc48cb239e7398, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
